@@ -1,7 +1,82 @@
-// FieldCard.jsx
-// Phase 3 - Form Builder
-// Renders one configurable field inside the builder canvas.
+import { GripVertical, Trash2 } from 'lucide-react'
+import { CSS } from '@dnd-kit/utilities'
+import { useSortable } from '@dnd-kit/sortable'
+import TextField from './fields/TextField.jsx'
+import TextareaField from './fields/TextareaField.jsx'
+import MultipleChoiceField from './fields/MultipleChoiceField.jsx'
+import CheckboxField from './fields/CheckboxField.jsx'
+import ScaleField from './fields/ScaleField.jsx'
+import DropdownField from './fields/DropdownField.jsx'
+import EmailField from './fields/EmailField.jsx'
+import DateField from './fields/DateField.jsx'
+import HeadingField from './fields/HeadingField.jsx'
 
-export default function FieldCard({ field }) {
-  return <div>FieldCard — coming in Phase 3</div>
+const FIELD_COMPONENTS = {
+  text: TextField,
+  textarea: TextareaField,
+  multiple: MultipleChoiceField,
+  checkbox: CheckboxField,
+  scale: ScaleField,
+  dropdown: DropdownField,
+  email: EmailField,
+  date: DateField,
+  heading: HeadingField,
+}
+
+export default function FieldCard({ field, isSelected, onSelect, onRemove }) {
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({ id: field.id })
+  const Preview = FIELD_COMPONENTS[field.type] ?? TextField
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+    opacity: isDragging ? 0.4 : 1,
+  }
+
+  return (
+    <article
+      ref={setNodeRef}
+      style={style}
+      onClick={() => onSelect(field.id)}
+      className={[
+        'group flex cursor-pointer gap-3 rounded-lg border bg-white p-4 shadow-sm transition hover:shadow-md',
+        isSelected
+          ? 'border-blue-500 ring-2 ring-blue-500'
+          : 'border-slate-200',
+      ].join(' ')}
+    >
+      <button
+        type="button"
+        aria-label="Drag field"
+        className="mt-1 flex h-8 w-8 shrink-0 cursor-grab items-center justify-center rounded-md text-slate-400 opacity-0 transition hover:bg-slate-100 hover:text-slate-700 group-hover:opacity-100"
+        onClick={(event) => event.stopPropagation()}
+        {...attributes}
+        {...listeners}
+      >
+        <GripVertical className="h-5 w-5" />
+      </button>
+
+      <div className="min-w-0 flex-1">
+        <Preview field={field} />
+      </div>
+
+      <button
+        type="button"
+        aria-label="Delete field"
+        onClick={(event) => {
+          event.stopPropagation()
+          onRemove(field.id)
+        }}
+        className="mt-1 flex h-8 w-8 shrink-0 items-center justify-center rounded-md text-slate-400 opacity-0 transition hover:bg-red-50 hover:text-red-600 group-hover:opacity-100"
+      >
+        <Trash2 className="h-4 w-4" />
+      </button>
+    </article>
+  )
 }

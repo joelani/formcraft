@@ -1,7 +1,10 @@
-// HeadingField.jsx
-// Phase 3 - Form Builder
-// Renders a heading or section break field preview and public form content.
-
 export default function HeadingField({ field }) {
-  return <div>HeadingField — coming in Phase 3</div>
+  return (
+    <div>
+      <h2 className="text-xl font-semibold text-slate-950">{field.label}</h2>
+      {field.placeholder ? (
+        <p className="mt-1 text-sm text-slate-500">{field.placeholder}</p>
+      ) : null}
+    </div>
+  )
 }
