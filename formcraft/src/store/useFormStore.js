@@ -9,7 +9,7 @@ const createNewForm = (title) => ({
   fields: [],
   status: 'draft',
   createdAt: new Date().toISOString(),
-  shareToken: '',
+  shareToken: generateShareToken(),
   submitMessage: 'Thank you for your response!',
 })
 
