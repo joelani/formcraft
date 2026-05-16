@@ -1,37 +1,40 @@
-function escapeCSVValue(value) {
-  if (Array.isArray(value)) {
-    return escapeCSVValue(value.join('; '))
-  }
-
+function quoteCSVValue(value) {
   const stringValue = value == null ? '' : String(value)
-  const escaped = stringValue.replaceAll('"', '""')
-
-  if (/[",\r\n]/.test(escaped)) {
-    return `"${escaped}"`
-  }
-
-  return escaped
+  return `"${stringValue.replace(/"/g, '""')}"`
 }
 
 export function exportToCSV(form, submissions) {
-  const fields = form?.fields ?? []
+  if (submissions.length === 0) return ''
+
+  const fields = (form?.fields ?? [])
+    .filter((field) => field.type !== 'heading')
+    .sort((a, b) => a.order - b.order)
+
   const headers = [
-    'submittedAt',
-    'duration',
-    'device',
-    ...fields.map((field) => field.label || field.id || 'Untitled field'),
+    '"Submitted At"',
+    '"Duration (s)"',
+    '"Device"',
+    ...fields.map((field) =>
+      quoteCSVValue(field.label || field.id || 'Untitled field'),
+    ),
   ]
 
-  const rows = submissions.map((submission) => [
-    submission.submittedAt,
-    submission.duration,
-    submission.device,
-    ...fields.map((field) => submission.responses?.[field.id] ?? ''),
-  ])
+  const rows = submissions.map((submission) => {
+    const base = [
+      quoteCSVValue(submission.submittedAt),
+      submission.duration ?? 0,
+      quoteCSVValue(submission.device),
+    ]
+    const fieldValues = fields.map((field) => {
+      const value = submission.responses?.[field.id]
+      const formattedValue = Array.isArray(value) ? value.join('; ') : value
+      return quoteCSVValue(formattedValue)
+    })
 
-  return [headers, ...rows]
-    .map((row) => row.map(escapeCSVValue).join(','))
-    .join('\n')
+    return [...base, ...fieldValues].join(',')
+  })
+
+  return [headers.join(','), ...rows].join('\n')
 }
 
 export function downloadCSV(filename, csvString) {
