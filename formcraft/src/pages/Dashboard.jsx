@@ -22,7 +22,7 @@ function FormCard({ form, responseCount, onDelete }) {
   const description = form.description?.trim()
 
   return (
-    <article className="flex min-h-64 flex-col rounded-lg border border-slate-200 bg-white p-5 shadow-sm transition hover:shadow-md">
+    <article className="flex min-h-64 flex-col rounded-lg border border-slate-200 bg-white p-5 shadow-sm transition-shadow hover:shadow-md">
       <div className="mb-4">
         <Badge variant={form.status === 'published' ? 'published' : 'draft'}>
           {form.status === 'published' ? 'Published' : 'Draft'}
@@ -34,7 +34,9 @@ function FormCard({ form, responseCount, onDelete }) {
         {description ? (
           <p className="mt-2 line-clamp-2 text-sm text-gray-500">{description}</p>
         ) : (
-          <p className="mt-2 text-sm italic text-gray-500">No description</p>
+          <p className="mt-2 text-sm italic text-gray-500">
+            No description added
+          </p>
         )}
       </div>
 
@@ -107,10 +109,14 @@ export default function Dashboard() {
   }
 
   return (
-    <div className="p-8">
-      <header className="flex items-center justify-between gap-4">
+    <div className="p-4 sm:p-8">
+      <header className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <h1 className="text-3xl font-semibold text-slate-950">My Forms</h1>
-        <Button variant="primary" onClick={() => setModalOpen(true)}>
+        <Button
+          variant="primary"
+          className="w-full sm:w-auto"
+          onClick={() => setModalOpen(true)}
+        >
           + New Form
         </Button>
       </header>
@@ -128,7 +134,7 @@ export default function Dashboard() {
             }
           />
         ) : (
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3">
             {forms.map((form) => (
               <FormCard
                 key={form.id}
@@ -154,11 +160,20 @@ export default function Dashboard() {
             value={title}
             onChange={(event) => setTitle(event.target.value)}
           />
-          <div className="mt-6 flex justify-end gap-2">
-            <Button variant="ghost" onClick={closeCreateModal}>
+          <div className="mt-6 flex flex-col-reverse gap-2 sm:flex-row sm:justify-end">
+            <Button
+              variant="ghost"
+              className="w-full sm:w-auto"
+              onClick={closeCreateModal}
+            >
               Cancel
             </Button>
-            <Button type="submit" variant="primary" disabled={!title.trim()}>
+            <Button
+              type="submit"
+              variant="primary"
+              className="w-full sm:w-auto"
+              disabled={!title.trim()}
+            >
               Create
             </Button>
           </div>
@@ -174,11 +189,19 @@ export default function Dashboard() {
           This will permanently delete "{deleteTarget?.title}" and all its
           responses. This cannot be undone.
         </p>
-        <div className="mt-6 flex justify-end gap-2">
-          <Button variant="ghost" onClick={() => setDeleteTarget(null)}>
+        <div className="mt-6 flex flex-col-reverse gap-2 sm:flex-row sm:justify-end">
+          <Button
+            variant="ghost"
+            className="w-full sm:w-auto"
+            onClick={() => setDeleteTarget(null)}
+          >
             Cancel
           </Button>
-          <Button variant="danger" onClick={handleDelete}>
+          <Button
+            variant="danger"
+            className="w-full sm:w-auto"
+            onClick={handleDelete}
+          >
             Delete
           </Button>
         </div>

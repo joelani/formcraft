@@ -44,8 +44,15 @@ export default function FieldCard({ field, isSelected, onSelect, onRemove }) {
       ref={setNodeRef}
       style={style}
       onClick={() => onSelect(field.id)}
+      onKeyDown={(event) => {
+        if (event.key === 'Enter' || event.key === ' ') {
+          event.preventDefault()
+          onSelect(field.id)
+        }
+      }}
+      tabIndex={0}
       className={[
-        'group flex cursor-pointer gap-3 rounded-lg border bg-white p-4 shadow-sm transition hover:shadow-md',
+        'group flex cursor-pointer gap-3 rounded-lg border bg-white p-4 shadow-sm transition-shadow hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2',
         isSelected
           ? 'border-blue-500 ring-2 ring-blue-500'
           : 'border-slate-200',
@@ -54,7 +61,7 @@ export default function FieldCard({ field, isSelected, onSelect, onRemove }) {
       <button
         type="button"
         aria-label="Drag field"
-        className="mt-1 flex h-8 w-8 shrink-0 cursor-grab items-center justify-center rounded-md text-slate-400 opacity-0 transition hover:bg-slate-100 hover:text-slate-700 group-hover:opacity-100"
+        className="mt-1 flex h-8 w-8 shrink-0 cursor-grab items-center justify-center rounded-md text-slate-400 opacity-0 transition-colors hover:bg-slate-100 hover:text-slate-700 focus-visible:opacity-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 group-hover:opacity-100"
         onClick={(event) => event.stopPropagation()}
         {...attributes}
         {...listeners}
@@ -73,7 +80,7 @@ export default function FieldCard({ field, isSelected, onSelect, onRemove }) {
           event.stopPropagation()
           onRemove(field.id)
         }}
-        className="mt-1 flex h-8 w-8 shrink-0 items-center justify-center rounded-md text-slate-400 opacity-0 transition hover:bg-red-50 hover:text-red-600 group-hover:opacity-100"
+        className="mt-1 flex h-8 w-8 shrink-0 items-center justify-center rounded-md text-slate-400 opacity-0 transition-colors hover:bg-red-50 hover:text-red-600 focus-visible:opacity-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-500 group-hover:opacity-100"
       >
         <Trash2 className="h-4 w-4" />
       </button>

@@ -45,7 +45,7 @@ export default function FieldPalette({ formId, onFieldAdded }) {
             key={type}
             type="button"
             onClick={() => handleAddField(type)}
-            className="flex w-full items-center gap-3 rounded-md px-3 py-2.5 text-left text-sm font-medium text-slate-700 transition hover:bg-blue-50 hover:text-blue-700"
+            className="flex w-full items-center gap-3 rounded-md px-3 py-2.5 text-left text-sm font-medium text-slate-700 transition-colors hover:bg-blue-50 hover:text-blue-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-1"
           >
             <Icon className="h-4 w-4 shrink-0" />
             <span>{label}</span>

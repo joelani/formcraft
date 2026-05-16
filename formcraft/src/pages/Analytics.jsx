@@ -44,6 +44,7 @@ export default function Analytics() {
   const getSubmissionsByForm = useSubmissionStore(
     (state) => state.getSubmissionsByForm,
   )
+  const getInvitesByForm = useSubmissionStore((state) => state.getInvitesByForm)
 
   if (!form) {
     return (
@@ -54,7 +55,17 @@ export default function Analytics() {
   }
 
   const submissions = getSubmissionsByForm(formId)
+  const invites = getInvitesByForm(formId)
   const totalResponses = submissions.length
+  const totalInvited = invites.length
+  const completionRate =
+    totalInvited === 0
+      ? totalResponses > 0
+        ? 100
+        : 0
+      : Math.round((totalResponses / totalInvited) * 100)
+  const completionDisplay =
+    totalResponses === 0 ? '—' : `${Math.min(completionRate, 100)}%`
   const avgDuration =
     totalResponses === 0
       ? 0
@@ -113,7 +124,7 @@ export default function Analytics() {
         <StatCard label="Total Responses" value={totalResponses} icon={Users} />
         <StatCard
           label="Completion Rate"
-          value={totalResponses === 0 ? '—' : '100%'}
+          value={completionDisplay}
           icon={TrendingUp}
         />
         <StatCard

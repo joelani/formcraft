@@ -242,7 +242,7 @@ export default function FormRenderer({ form, startTime, onSubmitted }) {
   }
 
   return (
-    <form className="rounded-xl bg-white p-8 shadow-md">
+    <form className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm sm:p-8">
       {sortedFields.map((field) => (
         <div className="mb-6" id={field.id} key={field.id}>
           {field.type !== 'heading' && (
@@ -259,7 +259,7 @@ export default function FormRenderer({ form, startTime, onSubmitted }) {
       ))}
 
       <button
-        className="mt-6 w-full rounded-md bg-blue-600 px-6 py-3 font-medium text-white transition-colors hover:bg-blue-700"
+        className="mt-6 w-full rounded-md bg-blue-600 px-6 py-3 font-medium text-white transition-colors hover:bg-blue-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
         onClick={handleSubmit}
         type="button"
       >
