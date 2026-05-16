@@ -22,7 +22,7 @@ function FormCard({ form, responseCount, onDelete }) {
   const description = form.description?.trim()
 
   return (
-    <article className="flex min-h-64 flex-col gap-3 rounded-[--radius-xl] border border-border bg-surface p-4 shadow-sm transition-shadow hover:shadow-md sm:p-5">
+    <article className="flex min-h-64 flex-col gap-3 rounded-xl border border-border bg-surface p-4 shadow-sm transition-shadow hover:shadow-md sm:p-5">
       <div className="mb-4">
         <Badge variant={form.status === 'published' ? 'published' : 'draft'}>
           {form.status === 'published' ? 'Published' : 'Draft'}
@@ -111,7 +111,7 @@ export default function Dashboard() {
   }
 
   return (
-    <div className="mx-auto max-w-[--content-max-width] p-4 sm:p-6 lg:p-8">
+    <div className="mx-auto max-w-[var(--content-max-width)] p-4 sm:p-6 lg:p-8">
       <header className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <h1 className="text-xl font-bold text-text-primary sm:text-2xl">My Forms</h1>
         <Button

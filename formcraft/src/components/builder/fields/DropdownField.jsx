@@ -9,7 +9,7 @@ export default function DropdownField({ field }) {
       </label>
       <select
         disabled
-        className="pointer-events-none h-10 w-full rounded-[--radius-md] border border-border-strong bg-surface-raised px-3 text-sm text-text-secondary opacity-60"
+        className="pointer-events-none h-10 w-full rounded-md border border-border-strong bg-surface-raised px-3 text-sm text-text-secondary opacity-60"
       >
         {options.map((option, index) => (
           <option key={`${option}-${index}`}>{option || `Option ${index + 1}`}</option>

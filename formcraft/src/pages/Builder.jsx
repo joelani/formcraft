@@ -53,7 +53,7 @@ export default function Builder() {
           </p>
           <Link
             to="/"
-            className="mt-6 inline-flex items-center justify-center rounded-[--radius-md] bg-brand-600 px-4 py-2 text-sm font-medium text-text-inverse transition hover:bg-brand-700"
+            className="mt-6 inline-flex items-center justify-center rounded-md bg-brand-600 px-4 py-2 text-sm font-medium text-text-inverse transition hover:bg-brand-700"
           >
             Back to dashboard
           </Link>
@@ -84,7 +84,7 @@ export default function Builder() {
 
   return (
     <div className="flex h-full flex-col overflow-hidden bg-surface">
-      <header className="flex h-[--builder-header-height] shrink-0 items-center gap-2 overflow-hidden border-b border-border bg-surface px-3 sm:gap-3 sm:px-4">
+      <header className="flex h-[var(--builder-header-height)] shrink-0 items-center gap-2 overflow-hidden border-b border-border bg-surface px-3 sm:gap-3 sm:px-4">
         <Button
           variant="ghost"
           size="sm"
@@ -109,13 +109,13 @@ export default function Builder() {
                   setEditingTitle(false)
                 }
               }}
-              className="h-10 w-full max-w-xl rounded-[--radius-md] border border-brand-300 px-3 text-base font-semibold text-text-primary outline-none focus:ring-2 focus:ring-brand-500 sm:text-xl"
+              className="h-10 w-full max-w-xl rounded-md border border-brand-300 px-3 text-base font-semibold text-text-primary outline-none focus:ring-2 focus:ring-brand-500 sm:text-xl"
             />
           ) : (
             <button
               type="button"
               onClick={() => setEditingTitle(true)}
-              className="flex max-w-full min-w-0 items-center gap-2 rounded-[--radius-md] px-2 py-1 text-left transition hover:bg-surface-overlay focus-visible:outline-none"
+              className="flex max-w-full min-w-0 items-center gap-2 rounded-md px-2 py-1 text-left transition hover:bg-surface-overlay focus-visible:outline-none"
             >
               <h1
                 className={[
@@ -191,7 +191,7 @@ export default function Builder() {
       <div className="flex min-h-0 flex-1 overflow-hidden">
         <div
           className={[
-            'overflow-y-auto bg-surface-raised lg:block lg:w-[--palette-width] lg:border-r lg:border-border',
+            'overflow-y-auto bg-surface-raised lg:block lg:w-[var(--palette-width)] lg:border-r lg:border-border',
             mobilePanel === 'palette' ? 'block w-full' : 'hidden',
           ].join(' ')}
         >
@@ -217,7 +217,7 @@ export default function Builder() {
         </div>
         <div
           className={[
-            'overflow-y-auto bg-surface lg:block lg:w-[--properties-width] lg:border-l lg:border-border',
+            'overflow-y-auto bg-surface lg:block lg:w-[var(--properties-width)] lg:border-l lg:border-border',
             mobilePanel === 'properties' ? 'block w-full' : 'hidden',
           ].join(' ')}
         >

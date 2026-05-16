@@ -61,7 +61,7 @@ export function ToastProvider({ children }) {
             <div
               key={toast.id}
               className={[
-                'pointer-events-auto animate-toast-in flex min-w-64 max-w-xs items-center gap-3 rounded-[--radius-lg] border border-border bg-surface px-4 py-3 shadow-lg',
+                'pointer-events-auto animate-toast-in flex min-w-64 max-w-xs items-center gap-3 rounded-lg border border-border bg-surface px-4 py-3 shadow-lg',
               ].join(' ')}
               role="status"
             >
@@ -70,7 +70,7 @@ export function ToastProvider({ children }) {
               <button
                 type="button"
                 onClick={() => removeToast(toast.id)}
-                className="rounded-[--radius-sm] p-0.5 text-text-muted transition hover:text-text-secondary focus-visible:outline-none"
+                className="rounded-sm p-0.5 text-text-muted transition hover:text-text-secondary focus-visible:outline-none"
                 aria-label="Dismiss notification"
               >
                 <X className="h-3.5 w-3.5" />

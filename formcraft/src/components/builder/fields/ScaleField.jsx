@@ -15,7 +15,7 @@ export default function ScaleField({ field }) {
             key={value}
             type="button"
             disabled
-            className="flex h-9 w-9 items-center justify-center rounded-[--radius-md] border border-border-strong bg-surface-raised text-sm text-text-secondary"
+            className="flex h-9 w-9 items-center justify-center rounded-md border border-border-strong bg-surface-raised text-sm text-text-secondary"
           >
             {value}
           </button>

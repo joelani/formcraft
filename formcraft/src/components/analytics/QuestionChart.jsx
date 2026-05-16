@@ -115,7 +115,7 @@ function TextResponses({ field, submissions }) {
       {textResponses.map((response, index) => (
         <li
           key={`${field.id}-${index}`}
-          className="rounded-[--radius-md] border border-border bg-surface-raised px-3 py-2 text-sm text-text-secondary"
+          className="rounded-md border border-border bg-surface-raised px-3 py-2 text-sm text-text-secondary"
         >
           {String(response)}
         </li>
@@ -130,7 +130,7 @@ export default function QuestionChart({ field, submissions }) {
   ).length
 
   return (
-    <div className="rounded-[--radius-xl] border border-border bg-surface p-4 shadow-sm sm:p-6">
+    <div className="rounded-xl border border-border bg-surface p-4 shadow-sm sm:p-6">
       <h3 className="mb-1 truncate text-sm font-medium text-text-secondary">{field.label}</h3>
       <p className="mb-4 text-xs text-text-muted">
         {responseCount} response{responseCount !== 1 ? 's' : ''}

@@ -19,7 +19,7 @@ import FieldCard from './FieldCard.jsx'
 
 function EmptyCanvas() {
   return (
-    <div className="flex min-h-96 items-center justify-center rounded-[--radius-lg] border-2 border-dashed border-border-strong bg-surface/70 p-8 text-center">
+    <div className="flex min-h-96 items-center justify-center rounded-lg border-2 border-dashed border-border-strong bg-surface/70 p-8 text-center">
       <p className="max-w-xs text-sm leading-6 text-text-muted">
         Add fields from the palette
         <br />
@@ -94,7 +94,7 @@ export default function BuilderCanvas({ formId, selectedFieldId, onSelectField }
             </SortableContext>
             <DragOverlay>
               {activeField ? (
-                <div className="rounded-[--radius-lg] border border-brand-200 bg-surface p-4 shadow-lg">
+                <div className="rounded-lg border border-brand-200 bg-surface p-4 shadow-lg">
                   {activeField.label}
                 </div>
               ) : null}

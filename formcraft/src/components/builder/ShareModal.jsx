@@ -91,13 +91,13 @@ export default function ShareModal({ isOpen, onClose, form }) {
               id="share-link"
               readOnly
               value={displayUrl}
-              className="h-10 min-w-0 flex-1 rounded-[--radius-md] border border-border-strong bg-surface-raised px-3 text-sm text-text-secondary outline-none transition focus:ring-2 focus:ring-brand-500"
+              className="h-10 min-w-0 flex-1 rounded-md border border-border-strong bg-surface-raised px-3 text-sm text-text-secondary outline-none transition focus:ring-2 focus:ring-brand-500"
             />
             <button
               type="button"
               onClick={handleCopy}
               disabled={!isPublished}
-              className="inline-flex h-10 items-center justify-center gap-1.5 rounded-[--radius-md] bg-brand-600 px-3 text-sm font-medium text-text-inverse transition-colors hover:bg-brand-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50"
+              className="inline-flex h-10 items-center justify-center gap-1.5 rounded-md bg-brand-600 px-3 text-sm font-medium text-text-inverse transition-colors hover:bg-brand-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50"
             >
               {copied ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
               {copied ? 'Copied' : 'Copy'}
@@ -130,12 +130,12 @@ export default function ShareModal({ isOpen, onClose, form }) {
                 if (event.key === 'Enter') handleInvite()
               }}
               placeholder="colleague@example.com"
-              className="h-10 min-w-0 flex-1 rounded-[--radius-md] border border-border-strong px-3 text-sm text-text-primary outline-none transition placeholder:text-text-muted focus:border-transparent focus:ring-2 focus:ring-brand-500"
+              className="h-10 min-w-0 flex-1 rounded-md border border-border-strong px-3 text-sm text-text-primary outline-none transition placeholder:text-text-muted focus:border-transparent focus:ring-2 focus:ring-brand-500"
             />
             <button
               type="button"
               onClick={handleInvite}
-              className="inline-flex h-10 items-center justify-center gap-1.5 rounded-[--radius-md] bg-text-primary px-3 text-sm font-medium text-text-inverse transition-colors hover:bg-brand-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:ring-offset-2"
+              className="inline-flex h-10 items-center justify-center gap-1.5 rounded-md bg-text-primary px-3 text-sm font-medium text-text-inverse transition-colors hover:bg-brand-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:ring-offset-2"
             >
               <Send className="h-4 w-4" />
               Send
@@ -154,11 +154,11 @@ export default function ShareModal({ isOpen, onClose, form }) {
             Invited ({invites.length})
           </h3>
           {invites.length === 0 ? (
-            <p className="rounded-[--radius-md] border border-dashed border-border px-3 py-4 text-sm text-text-muted">
+            <p className="rounded-md border border-dashed border-border px-3 py-4 text-sm text-text-muted">
               No invites recorded yet.
             </p>
           ) : (
-            <ul className="max-h-40 divide-y divide-border overflow-y-auto rounded-[--radius-md] border border-border">
+            <ul className="max-h-40 divide-y divide-border overflow-y-auto rounded-md border border-border">
               {invites.map((invite) => {
                 const status = inviteStatus(invite)
 

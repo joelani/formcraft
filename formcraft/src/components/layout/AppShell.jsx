@@ -17,7 +17,7 @@ export default function AppShell({ children }) {
 
       <aside
         className={[
-          'fixed inset-y-0 left-0 z-30 flex w-[--sidebar-width] transform flex-col border-r border-border bg-surface transition-transform duration-200 lg:static lg:translate-x-0',
+          'fixed inset-y-0 left-0 z-30 flex w-[var(--sidebar-width)] transform flex-col border-r border-border bg-surface transition-transform duration-200 lg:static lg:translate-x-0',
           sidebarOpen ? 'translate-x-0' : '-translate-x-full',
         ].join(' ')}
       >

@@ -23,7 +23,7 @@ export function Input({
         onChange={onChange}
         required={required}
         className={[
-          'w-full border border-border rounded-[--radius-md] bg-surface px-3 py-2 text-sm text-text-primary placeholder:text-text-muted transition-colors focus:border-transparent focus:outline-none focus:ring-2 focus:ring-brand-500 disabled:bg-surface-overlay disabled:text-text-muted',
+          'w-full border border-border rounded-md bg-surface px-3 py-2 text-sm text-text-primary placeholder:text-text-muted transition-colors focus:border-transparent focus:outline-none focus:ring-2 focus:ring-brand-500 disabled:bg-surface-overlay disabled:text-text-muted',
           error
             ? 'border-danger focus:ring-danger'
             : '',

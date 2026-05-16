@@ -3,7 +3,7 @@ import { generateId } from '../../lib/idgen.js'
 import { useSubmissionStore } from '../../store/useSubmissionStore.js'
 
 const inputClasses =
-  'w-full rounded-[--radius-md] border border-border-strong bg-surface px-3 py-2 text-sm text-text-primary placeholder:text-text-muted focus:outline-none focus:ring-2 focus:ring-brand-500'
+  'w-full rounded-md border border-border-strong bg-surface px-3 py-2 text-sm text-text-primary placeholder:text-text-muted focus:outline-none focus:ring-2 focus:ring-brand-500'
 
 export default function FormRenderer({ form, startTime, onSubmitted }) {
   const addSubmission = useSubmissionStore((state) => state.addSubmission)
@@ -214,7 +214,7 @@ export default function FormRenderer({ form, startTime, onSubmitted }) {
 
               return (
                 <button
-                  className={`h-10 min-w-10 rounded-[--radius-md] px-3 text-sm font-medium transition-colors ${
+                  className={`h-10 min-w-10 rounded-md px-3 text-sm font-medium transition-colors ${
                     selected
                       ? 'bg-brand-600 text-text-inverse'
                       : 'border border-border-strong bg-surface text-text-secondary hover:bg-surface-raised'
@@ -242,7 +242,7 @@ export default function FormRenderer({ form, startTime, onSubmitted }) {
   }
 
   return (
-    <form className="rounded-[--radius-xl] border border-border bg-surface p-5 shadow-md sm:p-8">
+    <form className="rounded-xl border border-border bg-surface p-5 shadow-md sm:p-8">
       {sortedFields.map((field) => (
         <div className="mb-6" id={field.id} key={field.id}>
           {field.type !== 'heading' && (
@@ -259,7 +259,7 @@ export default function FormRenderer({ form, startTime, onSubmitted }) {
       ))}
 
       <button
-        className="mt-6 w-full rounded-[--radius-md] bg-brand-600 px-6 py-3 font-medium text-text-inverse transition-colors hover:bg-brand-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:ring-offset-2"
+        className="mt-6 w-full rounded-md bg-brand-600 px-6 py-3 font-medium text-text-inverse transition-colors hover:bg-brand-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:ring-offset-2"
         onClick={handleSubmit}
         type="button"
       >

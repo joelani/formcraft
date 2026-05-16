@@ -11,9 +11,9 @@ export default function Sidebar({ onClose }) {
         <Link
           to="/"
           onClick={onClose}
-          className="flex min-w-0 flex-1 items-center gap-3 rounded-[--radius-md] focus-visible:outline-none"
+          className="flex min-w-0 flex-1 items-center gap-3 rounded-md focus-visible:outline-none"
         >
-          <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-[--radius-md] bg-brand-600 text-sm font-bold text-text-inverse">
+          <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-md bg-brand-600 text-sm font-bold text-text-inverse">
             FC
           </div>
           <span className="truncate text-lg font-bold text-text-primary">
@@ -23,7 +23,7 @@ export default function Sidebar({ onClose }) {
         <button
           type="button"
           onClick={onClose}
-          className="rounded-[--radius-md] p-1 text-text-muted transition hover:bg-surface-overlay hover:text-text-primary focus-visible:outline-none lg:hidden"
+          className="rounded-md p-1 text-text-muted transition hover:bg-surface-overlay hover:text-text-primary focus-visible:outline-none lg:hidden"
           aria-label="Close navigation"
         >
           <X className="h-5 w-5" />
@@ -35,7 +35,7 @@ export default function Sidebar({ onClose }) {
           to="/"
           onClick={onClose}
           className={[
-            'flex w-full items-center gap-2.5 rounded-[--radius-md] px-3 py-2 text-sm font-medium transition-colors focus-visible:outline-none',
+            'flex w-full items-center gap-2.5 rounded-md px-3 py-2 text-sm font-medium transition-colors focus-visible:outline-none',
             isDashboard
               ? 'bg-brand-50 text-brand-600'
               : 'text-text-secondary hover:bg-surface-overlay hover:text-text-primary',

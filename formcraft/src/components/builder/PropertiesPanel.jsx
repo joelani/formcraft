@@ -1,8 +1,8 @@
-import { Plus, X } from 'lucide-react'
-import { useFormStore } from '../../store/useFormStore.js'
+import { Plus, X } from "lucide-react";
+import { useFormStore } from "../../store/useFormStore.js";
 
-const OPTION_TYPES = ['multiple', 'checkbox', 'dropdown']
-const PLACEHOLDER_TYPES = ['text', 'textarea', 'email']
+const OPTION_TYPES = ["multiple", "checkbox", "dropdown"];
+const PLACEHOLDER_TYPES = ["text", "textarea", "email"];
 
 function ControlGroup({ label, children }) {
   return (
@@ -12,63 +12,68 @@ function ControlGroup({ label, children }) {
       </span>
       {children}
     </label>
-  )
+  );
 }
 
 function TextInput(props) {
   return (
     <input
       {...props}
-      className="h-10 w-full min-w-0 rounded-[--radius-md] border border-border-strong bg-surface px-3 text-sm text-text-primary outline-none transition placeholder:text-text-muted focus:border-transparent focus:ring-2 focus:ring-brand-500"
+      className="h-10 w-full min-w-0 rounded-md border border-border-strong bg-surface px-3 text-sm text-text-primary outline-none transition placeholder:text-text-muted focus:border-transparent focus:ring-2 focus:ring-brand-500"
     />
-  )
+  );
 }
 
 export default function PropertiesPanel({ formId, fieldId }) {
   const form = useFormStore((state) =>
     state.forms.find((item) => item.id === formId),
-  )
-  const updateField = useFormStore((state) => state.updateField)
-  const field = form?.fields.find((item) => item.id === fieldId)
+  );
+  const updateField = useFormStore((state) => state.updateField);
+  const field = form?.fields.find((item) => item.id === fieldId);
 
   const patchField = (patch) => {
-    if (!field) return
-    updateField(formId, field.id, patch)
-  }
+    if (!field) return;
+    updateField(formId, field.id, patch);
+  };
 
   const updateOption = (index, value) => {
-    const options = [...(field.options ?? [])]
-    options[index] = value
-    patchField({ options })
-  }
+    const options = [...(field.options ?? [])];
+    options[index] = value;
+    patchField({ options });
+  };
 
   const addOption = () => {
-    const options = field.options?.length ? field.options : []
-    patchField({ options: [...options, `Option ${options.length + 1}`] })
-  }
+    const options = field.options?.length ? field.options : [];
+    patchField({ options: [...options, `Option ${options.length + 1}`] });
+  };
 
   const removeOption = (index) => {
-    const options = field.options ?? []
+    const options = field.options ?? [];
 
-    if (options.length <= 1) return
+    if (options.length <= 1) return;
 
-    patchField({ options: options.filter((_, optionIndex) => optionIndex !== index) })
-  }
+    patchField({
+      options: options.filter((_, optionIndex) => optionIndex !== index),
+    });
+  };
 
   const updateScaleMin = (value) => {
-    const nextMin = Math.max(1, Math.min(Number(value) || 1, 9))
-    const currentMax = Number(field.scaleMax ?? 5)
+    const nextMin = Math.max(1, Math.min(Number(value) || 1, 9));
+    const currentMax = Number(field.scaleMax ?? 5);
     patchField({
       scaleMin: nextMin,
       scaleMax: Math.max(currentMax, nextMin + 1),
-    })
-  }
+    });
+  };
 
   const updateScaleMax = (value) => {
-    const currentMin = Number(field.scaleMin ?? 1)
-    const nextMax = Math.min(10, Math.max(Number(value) || currentMin + 1, currentMin + 1))
-    patchField({ scaleMax: nextMax })
-  }
+    const currentMin = Number(field.scaleMin ?? 1);
+    const nextMax = Math.min(
+      10,
+      Math.max(Number(value) || currentMin + 1, currentMin + 1),
+    );
+    patchField({ scaleMax: nextMax });
+  };
 
   return (
     <aside className="h-full overflow-y-auto">
@@ -85,7 +90,9 @@ export default function PropertiesPanel({ formId, fieldId }) {
           </p>
         ) : (
           <>
-            <ControlGroup label={field.type === 'heading' ? 'Heading text' : 'Label'}>
+            <ControlGroup
+              label={field.type === "heading" ? "Heading text" : "Label"}
+            >
               <TextInput
                 value={field.label}
                 onChange={(event) => patchField({ label: event.target.value })}
@@ -95,7 +102,7 @@ export default function PropertiesPanel({ formId, fieldId }) {
             {PLACEHOLDER_TYPES.includes(field.type) ? (
               <ControlGroup label="Placeholder">
                 <TextInput
-                  value={field.placeholder ?? ''}
+                  value={field.placeholder ?? ""}
                   onChange={(event) =>
                     patchField({ placeholder: event.target.value })
                   }
@@ -103,24 +110,26 @@ export default function PropertiesPanel({ formId, fieldId }) {
               </ControlGroup>
             ) : null}
 
-            {field.type !== 'heading' ? (
+            {field.type !== "heading" ? (
               <div className="flex items-center justify-between gap-3">
-                <span className="text-sm font-medium text-text-primary">Required</span>
+                <span className="text-sm font-medium text-text-primary">
+                  Required
+                </span>
                 <button
                   type="button"
                   role="switch"
                   aria-checked={field.required}
                   onClick={() => patchField({ required: !field.required })}
                   className={[
-                    'flex h-6 w-11 items-center rounded-full p-0.5 transition',
-                    field.required ? 'bg-brand-600' : 'bg-border-strong',
-                  ].join(' ')}
+                    "flex h-6 w-11 items-center rounded-full p-0.5 transition",
+                    field.required ? "bg-brand-600" : "bg-border-strong",
+                  ].join(" ")}
                 >
                   <span
                     className={[
-                      'h-5 w-5 rounded-[--radius-full] bg-surface shadow transition',
-                      field.required ? 'translate-x-5' : 'translate-x-0',
-                    ].join(' ')}
+                      "h-5 w-5 rounded-full bg-surface shadow transition",
+                      field.required ? "translate-x-5" : "translate-x-0",
+                    ].join(" ")}
                   />
                 </button>
               </div>
@@ -128,21 +137,25 @@ export default function PropertiesPanel({ formId, fieldId }) {
 
             {OPTION_TYPES.includes(field.type) ? (
               <div>
-                <div className="mb-2 text-sm font-medium text-text-primary">Options</div>
+                <div className="mb-2 text-sm font-medium text-text-primary">
+                  Options
+                </div>
                 <div className="space-y-2">
-                  {(field.options?.length ? field.options : ['Option 1']).map(
+                  {(field.options?.length ? field.options : ["Option 1"]).map(
                     (option, index) => (
                       <div key={index} className="flex items-center gap-2">
                         <TextInput
                           value={option}
-                          onChange={(event) => updateOption(index, event.target.value)}
+                          onChange={(event) =>
+                            updateOption(index, event.target.value)
+                          }
                         />
                         <button
                           type="button"
                           aria-label={`Remove option ${index + 1}`}
                           disabled={(field.options?.length ?? 1) <= 1}
                           onClick={() => removeOption(index)}
-                          className="flex h-10 w-10 shrink-0 items-center justify-center rounded-[--radius-md] text-text-muted transition hover:bg-danger-light hover:text-danger disabled:pointer-events-none disabled:opacity-40"
+                          className="flex h-10 w-10 shrink-0 items-center justify-center rounded-md text-text-muted transition hover:bg-danger-light hover:text-danger disabled:pointer-events-none disabled:opacity-40"
                         >
                           <X className="h-4 w-4" />
                         </button>
@@ -153,7 +166,7 @@ export default function PropertiesPanel({ formId, fieldId }) {
                 <button
                   type="button"
                   onClick={addOption}
-                  className="mt-3 inline-flex items-center gap-2 rounded-[--radius-md] px-2 py-1.5 text-sm font-medium text-brand-600 transition hover:bg-brand-50"
+                  className="mt-3 inline-flex items-center gap-2 rounded-md px-2 py-1.5 text-sm font-medium text-brand-600 transition hover:bg-brand-50"
                 >
                   <Plus className="h-4 w-4" />
                   Add option
@@ -161,7 +174,7 @@ export default function PropertiesPanel({ formId, fieldId }) {
               </div>
             ) : null}
 
-            {field.type === 'scale' ? (
+            {field.type === "scale" ? (
               <div className="grid grid-cols-2 gap-3">
                 <ControlGroup label="Min value">
                   <TextInput
@@ -187,5 +200,5 @@ export default function PropertiesPanel({ formId, fieldId }) {
         )}
       </div>
     </aside>
-  )
+  );
 }

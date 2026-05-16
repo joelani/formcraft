@@ -8,7 +8,7 @@ export default function DateField({ field }) {
       <input
         type="date"
         disabled
-        className="pointer-events-none h-10 w-full rounded-[--radius-md] border border-border-strong bg-surface-raised px-3 text-sm text-text-secondary opacity-60"
+        className="pointer-events-none h-10 w-full rounded-md border border-border-strong bg-surface-raised px-3 text-sm text-text-secondary opacity-60"
       />
     </div>
   )

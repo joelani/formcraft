@@ -8,7 +8,7 @@ export function Badge({ variant = 'default', children, className = '' }) {
   return (
     <span
       className={[
-        'inline-flex items-center rounded-[--radius-full] px-2 py-0.5 text-xs font-medium',
+        'inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium',
         variants[variant] ?? variants.default,
         className,
       ].join(' ')}

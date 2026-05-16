@@ -25,7 +25,7 @@ export function Modal({ isOpen, onClose, title, children }) {
       role="presentation"
     >
       <div
-        className="relative mx-auto mt-12 w-full max-w-md rounded-[--radius-xl] border border-border bg-surface p-6 shadow-xl animate-slide-up sm:mt-24"
+        className="relative mx-auto mt-12 w-full max-w-md rounded-xl border border-border bg-surface p-6 shadow-xl animate-slide-up sm:mt-24"
         onMouseDown={(event) => event.stopPropagation()}
         role="dialog"
         aria-modal="true"

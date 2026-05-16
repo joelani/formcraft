@@ -46,7 +46,7 @@ export default function ResponseTable({ form, submissions }) {
   }
 
   return (
-    <div className="overflow-x-auto rounded-[--radius-xl] border border-border bg-surface shadow-sm">
+    <div className="overflow-x-auto rounded-xl border border-border bg-surface shadow-sm">
       <table className="w-full min-w-[520px] text-left text-sm">
         <thead className="border-b border-border bg-surface-overlay">
           <tr>

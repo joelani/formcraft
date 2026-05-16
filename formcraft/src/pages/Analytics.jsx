@@ -87,7 +87,7 @@ export default function Analytics() {
   }
 
   return (
-    <div className="mx-auto max-w-[--content-max-width] p-4 sm:p-6 lg:p-8">
+    <div className="mx-auto max-w-[var(--content-max-width)] p-4 sm:p-6 lg:p-8">
       <header className="mb-6 flex flex-col gap-3 sm:mb-8 sm:flex-row sm:items-center sm:justify-between">
         <div className="min-w-0">
           <Button
