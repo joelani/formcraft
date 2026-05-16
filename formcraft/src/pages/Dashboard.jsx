@@ -1,38 +1,42 @@
-import { useState } from 'react'
-import { FileText, Trash2 } from 'lucide-react'
-import { useNavigate } from 'react-router-dom'
-import { Badge } from '../components/ui/Badge.jsx'
-import { Button } from '../components/ui/Button.jsx'
-import { EmptyState } from '../components/ui/EmptyState.jsx'
-import { Input } from '../components/ui/Input.jsx'
-import { Modal } from '../components/ui/Modal.jsx'
-import { useFormStore } from '../store/useFormStore.js'
-import { useSubmissionStore } from '../store/useSubmissionStore.js'
+import { useState } from "react";
+import { FileText, Trash2 } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import { Badge } from "../components/ui/Badge.jsx";
+import { Button } from "../components/ui/Button.jsx";
+import { EmptyState } from "../components/ui/EmptyState.jsx";
+import { Input } from "../components/ui/Input.jsx";
+import { Modal } from "../components/ui/Modal.jsx";
+import { useFormStore } from "../store/useFormStore.js";
+import { useSubmissionStore } from "../store/useSubmissionStore.js";
 
 function formatDate(date) {
-  return new Date(date).toLocaleDateString('en-US', {
-    month: 'short',
-    day: 'numeric',
-    year: 'numeric',
-  })
+  return new Date(date).toLocaleDateString("en-US", {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+  });
 }
 
 function FormCard({ form, responseCount, onDelete }) {
-  const navigate = useNavigate()
-  const description = form.description?.trim()
+  const navigate = useNavigate();
+  const description = form.description?.trim();
 
   return (
     <article className="flex min-h-64 flex-col gap-3 rounded-xl border border-border bg-surface p-4 shadow-sm transition-shadow hover:shadow-md sm:p-5">
       <div className="mb-4">
-        <Badge variant={form.status === 'published' ? 'published' : 'draft'}>
-          {form.status === 'published' ? 'Published' : 'Draft'}
+        <Badge variant={form.status === "published" ? "published" : "draft"}>
+          {form.status === "published" ? "Published" : "Draft"}
         </Badge>
       </div>
 
       <div className="min-w-0 flex-1">
-        <h2 className="truncate text-base font-semibold text-text-primary">{form.title}</h2>
+        <h2 className="truncate text-base font-semibold text-text-primary">
+          {form.title}
+        </h2>
         {description ? (
-          <p className="mt-2 line-clamp-2 text-sm text-text-muted">{description}</p>
+          <p className="mt-2 line-clamp-2 text-sm text-text-muted">
+            {description}
+          </p>
         ) : (
           <p className="mt-2 text-sm italic text-text-muted">
             No description added
@@ -41,8 +45,8 @@ function FormCard({ form, responseCount, onDelete }) {
       </div>
 
       <div className="text-xs text-text-muted">
-        {responseCount} {responseCount === 1 ? 'response' : 'responses'} &middot;{' '}
-        {formatDate(form.createdAt)}
+        {responseCount} {responseCount === 1 ? "response" : "responses"}{" "}
+        &middot; {formatDate(form.createdAt)}
       </div>
 
       <div className="mt-auto flex flex-wrap items-center gap-2 border-t border-border pt-3">
@@ -73,47 +77,49 @@ function FormCard({ form, responseCount, onDelete }) {
         </Button>
       </div>
     </article>
-  )
+  );
 }
 
 export default function Dashboard() {
-  const [modalOpen, setModalOpen] = useState(false)
-  const [title, setTitle] = useState('')
-  const [deleteTarget, setDeleteTarget] = useState(null)
-  const forms = useFormStore((state) => state.forms)
-  const createForm = useFormStore((state) => state.createForm)
-  const deleteForm = useFormStore((state) => state.deleteForm)
+  const [modalOpen, setModalOpen] = useState(false);
+  const [title, setTitle] = useState("");
+  const [deleteTarget, setDeleteTarget] = useState(null);
+  const forms = useFormStore((state) => state.forms);
+  const createForm = useFormStore((state) => state.createForm);
+  const deleteForm = useFormStore((state) => state.deleteForm);
   const getSubmissionsByForm = useSubmissionStore(
     (state) => state.getSubmissionsByForm,
-  )
-  const navigate = useNavigate()
+  );
+  const navigate = useNavigate();
 
   const closeCreateModal = () => {
-    setModalOpen(false)
-    setTitle('')
-  }
+    setModalOpen(false);
+    setTitle("");
+  };
 
   const handleCreate = () => {
-    const trimmedTitle = title.trim()
+    const trimmedTitle = title.trim();
 
-    if (!trimmedTitle) return
+    if (!trimmedTitle) return;
 
-    const id = createForm(trimmedTitle)
-    closeCreateModal()
-    navigate(`/builder/${id}`)
-  }
+    const id = createForm(trimmedTitle);
+    closeCreateModal();
+    navigate(`/builder/${id}`);
+  };
 
   const handleDelete = () => {
-    if (!deleteTarget) return
+    if (!deleteTarget) return;
 
-    deleteForm(deleteTarget.id)
-    setDeleteTarget(null)
-  }
+    deleteForm(deleteTarget.id);
+    setDeleteTarget(null);
+  };
 
   return (
     <div className="mx-auto max-w-[var(--content-max-width)] p-4 sm:p-6 lg:p-8">
       <header className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-        <h1 className="text-xl font-bold text-text-primary sm:text-2xl">My Forms</h1>
+        <h1 className="text-xl font-bold text-text-primary sm:text-2xl">
+          My Forms
+        </h1>
         <Button
           variant="primary"
           className="w-full sm:w-auto"
@@ -152,8 +158,8 @@ export default function Dashboard() {
       <Modal isOpen={modalOpen} onClose={closeCreateModal} title="Create form">
         <form
           onSubmit={(event) => {
-            event.preventDefault()
-            handleCreate()
+            event.preventDefault();
+            handleCreate();
           }}
         >
           <Input
@@ -201,7 +207,7 @@ export default function Dashboard() {
           </Button>
           <Button
             variant="danger"
-            className="w-full sm:w-auto"
+            className="w-full bg-transparent sm:w-auto"
             onClick={handleDelete}
           >
             Delete
@@ -209,5 +215,5 @@ export default function Dashboard() {
         </div>
       </Modal>
     </div>
-  )
+  );
 }

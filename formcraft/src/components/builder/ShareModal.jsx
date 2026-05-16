@@ -1,59 +1,63 @@
-import { useState } from 'react'
-import { Check, Copy, Mail, Send } from 'lucide-react'
-import { generateId } from '../../lib/idgen.js'
-import { useSubmissionStore } from '../../store/useSubmissionStore.js'
-import { Modal } from '../ui/Modal.jsx'
-import { useToast } from '../ui/Toast.jsx'
+import { useState } from "react";
+import { Check, Copy, Mail, Send } from "lucide-react";
+import { generateId } from "../../lib/idgen.js";
+import { useSubmissionStore } from "../../store/useSubmissionStore.js";
+import { Modal } from "../ui/Modal.jsx";
+import { useToast } from "../ui/Toast.jsx";
 
-const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 export default function ShareModal({ isOpen, onClose, form }) {
-  const [copied, setCopied] = useState(false)
-  const [emailInput, setEmailInput] = useState('')
-  const [emailError, setEmailError] = useState('')
-  const { toast } = useToast()
-  const addInvite = useSubmissionStore((state) => state.addInvite)
-  const getInvitesByForm = useSubmissionStore((state) => state.getInvitesByForm)
+  const [copied, setCopied] = useState(false);
+  const [emailInput, setEmailInput] = useState("");
+  const [emailError, setEmailError] = useState("");
+  const { toast } = useToast();
+  const addInvite = useSubmissionStore((state) => state.addInvite);
+  const getInvitesByForm = useSubmissionStore(
+    (state) => state.getInvitesByForm,
+  );
   const invites = useSubmissionStore((state) =>
     state.invites.filter((invite) => invite.formId === form?.id),
-  )
+  );
 
-  if (!form) return null
+  if (!form) return null;
 
-  const isPublished = form.status === 'published'
-  const publicUrl = `${window.location.origin}/f/${form.shareToken}`
-  const displayUrl = isPublished ? publicUrl : 'Publish your form to get a link'
+  const isPublished = form.status === "published";
+  const publicUrl = `${window.location.origin}/f/${form.shareToken}`;
+  const displayUrl = isPublished
+    ? publicUrl
+    : "Publish your form to get a link";
 
   async function handleCopy() {
-    if (!isPublished) return
+    if (!isPublished) return;
 
     try {
-      await navigator.clipboard.writeText(publicUrl)
-      setCopied(true)
-      toast.success('Link copied to clipboard')
-      window.setTimeout(() => setCopied(false), 2000)
+      await navigator.clipboard.writeText(publicUrl);
+      setCopied(true);
+      toast.success("Link copied to clipboard");
+      window.setTimeout(() => setCopied(false), 2000);
     } catch {
-      toast.error('Could not copy the link')
+      toast.error("Could not copy the link");
     }
   }
 
   function handleInvite() {
-    const email = emailInput.trim().toLowerCase()
-    const currentInvites = getInvitesByForm(form.id)
+    const email = emailInput.trim().toLowerCase();
+    const currentInvites = getInvitesByForm(form.id);
 
     if (!email) {
-      setEmailError('Please enter an email address')
-      return
+      setEmailError("Please enter an email address");
+      return;
     }
 
     if (!emailRegex.test(email)) {
-      setEmailError('Please enter a valid email address')
-      return
+      setEmailError("Please enter a valid email address");
+      return;
     }
 
     if (currentInvites.some((invite) => invite.email.toLowerCase() === email)) {
-      setEmailError('This email has already been invited')
-      return
+      setEmailError("This email has already been invited");
+      return;
     }
 
     addInvite({
@@ -63,17 +67,18 @@ export default function ShareModal({ isOpen, onClose, form }) {
       sentAt: new Date().toISOString(),
       openedAt: null,
       submittedAt: null,
-    })
+    });
 
-    setEmailInput('')
-    setEmailError('')
-    toast.success(`Invite recorded for ${email}`)
+    setEmailInput("");
+    setEmailError("");
+    toast.success(`Invite recorded for ${email}`);
   }
 
   function inviteStatus(invite) {
-    if (invite.submittedAt) return { label: 'Responded', className: 'text-success' }
-    if (invite.openedAt) return { label: 'Opened', className: 'text-info' }
-    return { label: 'Pending', className: 'text-text-muted' }
+    if (invite.submittedAt)
+      return { label: "Responded", className: "text-success" };
+    if (invite.openedAt) return { label: "Opened", className: "text-info" };
+    return { label: "Pending", className: "text-text-muted" };
   }
 
   return (
@@ -91,16 +96,20 @@ export default function ShareModal({ isOpen, onClose, form }) {
               id="share-link"
               readOnly
               value={displayUrl}
-              className="h-10 min-w-0 flex-1 rounded-md border border-border-strong bg-surface-raised px-3 text-sm text-text-secondary outline-none transition focus:ring-2 focus:ring-brand-500"
+              className="py-2 min-w-0 flex-1 rounded-md border border-border-strong bg-surface-raised px-3 text-sm text-text-secondary outline-none transition focus:ring-2 focus:ring-brand-500"
             />
             <button
               type="button"
               onClick={handleCopy}
               disabled={!isPublished}
-              className="inline-flex h-10 items-center justify-center gap-1.5 rounded-md bg-brand-600 px-3 text-sm font-medium text-text-inverse transition-colors hover:bg-brand-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50"
+              className="inline-flex py-2 items-center justify-center gap-1.5 rounded-md bg-brand-600 px-3 text-sm font-medium text-text-inverse transition-colors hover:bg-brand-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50"
             >
-              {copied ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
-              {copied ? 'Copied' : 'Copy'}
+              {copied ? (
+                <Check className="h-4 w-4" />
+              ) : (
+                <Copy className="h-4 w-4" />
+              )}
+              {copied ? "Copied" : "Copy"}
             </button>
           </div>
           {!isPublished ? (
@@ -123,19 +132,19 @@ export default function ShareModal({ isOpen, onClose, form }) {
               type="email"
               value={emailInput}
               onChange={(event) => {
-                setEmailInput(event.target.value)
-                setEmailError('')
+                setEmailInput(event.target.value);
+                setEmailError("");
               }}
               onKeyDown={(event) => {
-                if (event.key === 'Enter') handleInvite()
+                if (event.key === "Enter") handleInvite();
               }}
               placeholder="colleague@example.com"
-              className="h-10 min-w-0 flex-1 rounded-md border border-border-strong px-3 text-sm text-text-primary outline-none transition placeholder:text-text-muted focus:border-transparent focus:ring-2 focus:ring-brand-500"
+              className="py-2 min-w-0 flex-1 rounded-md border border-border-strong px-3 text-sm text-text-primary outline-none transition placeholder:text-text-muted focus:border-transparent focus:ring-2 focus:ring-brand-500"
             />
             <button
               type="button"
               onClick={handleInvite}
-              className="inline-flex h-10 items-center justify-center gap-1.5 rounded-md bg-text-primary px-3 text-sm font-medium text-text-inverse transition-colors hover:bg-brand-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:ring-offset-2"
+              className="inline-flex py-2.5 items-center justify-center gap-1.5 rounded-md bg-text-primary px-3 text-sm font-medium text-text-inverse transition-colors hover:bg-brand-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:ring-offset-2"
             >
               <Send className="h-4 w-4" />
               Send
@@ -145,7 +154,8 @@ export default function ShareModal({ isOpen, onClose, form }) {
             <p className="mt-1.5 text-xs text-danger">{emailError}</p>
           ) : null}
           <p className="mt-1.5 text-xs text-text-muted">
-            Email sending is not available in MVP; invite is recorded for tracking only.
+            Email sending is not available in MVP; invite is recorded for
+            tracking only.
           </p>
         </section>
 
@@ -160,7 +170,7 @@ export default function ShareModal({ isOpen, onClose, form }) {
           ) : (
             <ul className="max-h-40 divide-y divide-border overflow-y-auto rounded-md border border-border">
               {invites.map((invite) => {
-                const status = inviteStatus(invite)
+                const status = inviteStatus(invite);
 
                 return (
                   <li
@@ -171,16 +181,18 @@ export default function ShareModal({ isOpen, onClose, form }) {
                       <Mail className="h-4 w-4 shrink-0 text-text-muted" />
                       <span className="truncate">{invite.email}</span>
                     </span>
-                    <span className={`shrink-0 text-xs font-medium ${status.className}`}>
+                    <span
+                      className={`shrink-0 text-xs font-medium ${status.className}`}
+                    >
                       {status.label}
                     </span>
                   </li>
-                )
+                );
               })}
             </ul>
           )}
         </section>
       </div>
     </Modal>
-  )
+  );
 }
