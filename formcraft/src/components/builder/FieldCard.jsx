@@ -43,6 +43,7 @@ export default function FieldCard({ field, isSelected, onSelect, onRemove }) {
     <article
       ref={setNodeRef}
       style={style}
+      {...attributes}
       onClick={() => onSelect(field.id)}
       onKeyDown={(event) => {
         if (event.key === 'Enter' || event.key === ' ') {
@@ -61,9 +62,9 @@ export default function FieldCard({ field, isSelected, onSelect, onRemove }) {
       <button
         type="button"
         aria-label="Drag field"
-        className="mt-0.5 flex h-8 w-8 shrink-0 cursor-grab items-center justify-center rounded-md text-text-disabled opacity-100 transition-colors hover:bg-surface-overlay hover:text-text-muted focus-visible:outline-none sm:opacity-0 sm:focus-visible:opacity-100 sm:group-hover:opacity-100"
+        style={{ touchAction: 'none' }}
+        className="mt-0.5 flex h-8 w-8 shrink-0 touch-none cursor-grab items-center justify-center rounded-md text-text-disabled opacity-100 transition-colors hover:bg-surface-overlay hover:text-text-muted focus-visible:outline-none sm:opacity-0 sm:focus-visible:opacity-100 sm:group-hover:opacity-100"
         onClick={(event) => event.stopPropagation()}
-        {...attributes}
         {...listeners}
       >
         <GripVertical className="h-5 w-5" />
