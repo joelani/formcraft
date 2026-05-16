@@ -22,7 +22,7 @@ function FormCard({ form, responseCount, onDelete }) {
   const description = form.description?.trim()
 
   return (
-    <article className="flex min-h-64 flex-col rounded-lg border border-slate-200 bg-white p-5 shadow-sm transition-shadow hover:shadow-md">
+    <article className="flex min-h-64 flex-col gap-3 rounded-[--radius-xl] border border-border bg-surface p-4 shadow-sm transition-shadow hover:shadow-md sm:p-5">
       <div className="mb-4">
         <Badge variant={form.status === 'published' ? 'published' : 'draft'}>
           {form.status === 'published' ? 'Published' : 'Draft'}
@@ -30,25 +30,26 @@ function FormCard({ form, responseCount, onDelete }) {
       </div>
 
       <div className="min-w-0 flex-1">
-        <h2 className="truncate text-base font-semibold text-gray-900">{form.title}</h2>
+        <h2 className="truncate text-base font-semibold text-text-primary">{form.title}</h2>
         {description ? (
-          <p className="mt-2 line-clamp-2 text-sm text-gray-500">{description}</p>
+          <p className="mt-2 line-clamp-2 text-sm text-text-muted">{description}</p>
         ) : (
-          <p className="mt-2 text-sm italic text-gray-500">
+          <p className="mt-2 text-sm italic text-text-muted">
             No description added
           </p>
         )}
       </div>
 
-      <div className="mt-5 text-xs text-gray-400">
+      <div className="text-xs text-text-muted">
         {responseCount} {responseCount === 1 ? 'response' : 'responses'} &middot;{' '}
         {formatDate(form.createdAt)}
       </div>
 
-      <div className="mt-5 flex items-center gap-2">
+      <div className="mt-auto flex flex-wrap items-center gap-2 border-t border-border pt-3">
         <Button
           variant="secondary"
           size="sm"
+          className="min-w-0 flex-1"
           onClick={() => navigate(`/builder/${form.id}`)}
         >
           Open Builder
@@ -56,6 +57,7 @@ function FormCard({ form, responseCount, onDelete }) {
         <Button
           variant="ghost"
           size="sm"
+          className="min-w-0 flex-1"
           onClick={() => navigate(`/analytics/${form.id}`)}
         >
           Analytics
@@ -63,7 +65,7 @@ function FormCard({ form, responseCount, onDelete }) {
         <Button
           variant="danger"
           size="sm"
-          className="ml-auto px-2.5"
+          className="px-2.5"
           onClick={() => onDelete(form)}
         >
           <span className="sr-only">Delete {form.title}</span>
@@ -109,9 +111,9 @@ export default function Dashboard() {
   }
 
   return (
-    <div className="p-4 sm:p-8">
-      <header className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-        <h1 className="text-3xl font-semibold text-slate-950">My Forms</h1>
+    <div className="mx-auto max-w-[--content-max-width] p-4 sm:p-6 lg:p-8">
+      <header className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+        <h1 className="text-xl font-bold text-text-primary sm:text-2xl">My Forms</h1>
         <Button
           variant="primary"
           className="w-full sm:w-auto"
@@ -121,7 +123,7 @@ export default function Dashboard() {
         </Button>
       </header>
 
-      <main className="mt-8">
+      <main>
         {forms.length === 0 ? (
           <EmptyState
             icon={FileText}
@@ -134,7 +136,7 @@ export default function Dashboard() {
             }
           />
         ) : (
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3">
             {forms.map((form) => (
               <FormCard
                 key={form.id}
@@ -185,7 +187,7 @@ export default function Dashboard() {
         onClose={() => setDeleteTarget(null)}
         title="Delete form?"
       >
-        <p className="text-sm leading-6 text-slate-600">
+        <p className="text-sm leading-6 text-text-secondary">
           This will permanently delete "{deleteTarget?.title}" and all its
           responses. This cannot be undone.
         </p>

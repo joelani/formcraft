@@ -71,9 +71,9 @@ export default function ShareModal({ isOpen, onClose, form }) {
   }
 
   function inviteStatus(invite) {
-    if (invite.submittedAt) return { label: 'Responded', className: 'text-green-600' }
-    if (invite.openedAt) return { label: 'Opened', className: 'text-blue-600' }
-    return { label: 'Pending', className: 'text-slate-500' }
+    if (invite.submittedAt) return { label: 'Responded', className: 'text-success' }
+    if (invite.openedAt) return { label: 'Opened', className: 'text-info' }
+    return { label: 'Pending', className: 'text-text-muted' }
   }
 
   return (
@@ -82,7 +82,7 @@ export default function ShareModal({ isOpen, onClose, form }) {
         <section>
           <label
             htmlFor="share-link"
-            className="mb-2 block text-sm font-medium text-slate-700"
+            className="mb-2 block text-sm font-medium text-text-primary"
           >
             Public Link
           </label>
@@ -91,20 +91,20 @@ export default function ShareModal({ isOpen, onClose, form }) {
               id="share-link"
               readOnly
               value={displayUrl}
-              className="h-10 min-w-0 flex-1 rounded-md border border-slate-300 bg-slate-50 px-3 text-sm text-slate-700 outline-none transition focus:ring-2 focus:ring-blue-100"
+              className="h-10 min-w-0 flex-1 rounded-[--radius-md] border border-border-strong bg-surface-raised px-3 text-sm text-text-secondary outline-none transition focus:ring-2 focus:ring-brand-500"
             />
             <button
               type="button"
               onClick={handleCopy}
               disabled={!isPublished}
-              className="inline-flex h-10 items-center justify-center gap-1.5 rounded-md bg-blue-600 px-3 text-sm font-medium text-white transition-colors hover:bg-blue-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50"
+              className="inline-flex h-10 items-center justify-center gap-1.5 rounded-[--radius-md] bg-brand-600 px-3 text-sm font-medium text-text-inverse transition-colors hover:bg-brand-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50"
             >
               {copied ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
               {copied ? 'Copied' : 'Copy'}
             </button>
           </div>
           {!isPublished ? (
-            <p className="mt-1.5 text-xs text-amber-600">
+            <p className="mt-1.5 text-xs text-warning">
               Publish this form to generate a shareable link.
             </p>
           ) : null}
@@ -113,7 +113,7 @@ export default function ShareModal({ isOpen, onClose, form }) {
         <section>
           <label
             htmlFor="invite-email"
-            className="mb-2 block text-sm font-medium text-slate-700"
+            className="mb-2 block text-sm font-medium text-text-primary"
           >
             Invite by Email
           </label>
@@ -130,35 +130,35 @@ export default function ShareModal({ isOpen, onClose, form }) {
                 if (event.key === 'Enter') handleInvite()
               }}
               placeholder="colleague@example.com"
-              className="h-10 min-w-0 flex-1 rounded-md border border-slate-300 px-3 text-sm text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+              className="h-10 min-w-0 flex-1 rounded-[--radius-md] border border-border-strong px-3 text-sm text-text-primary outline-none transition placeholder:text-text-muted focus:border-transparent focus:ring-2 focus:ring-brand-500"
             />
             <button
               type="button"
               onClick={handleInvite}
-              className="inline-flex h-10 items-center justify-center gap-1.5 rounded-md bg-slate-900 px-3 text-sm font-medium text-white transition-colors hover:bg-slate-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-500 focus-visible:ring-offset-2"
+              className="inline-flex h-10 items-center justify-center gap-1.5 rounded-[--radius-md] bg-text-primary px-3 text-sm font-medium text-text-inverse transition-colors hover:bg-brand-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:ring-offset-2"
             >
               <Send className="h-4 w-4" />
               Send
             </button>
           </div>
           {emailError ? (
-            <p className="mt-1.5 text-xs text-red-600">{emailError}</p>
+            <p className="mt-1.5 text-xs text-danger">{emailError}</p>
           ) : null}
-          <p className="mt-1.5 text-xs text-slate-500">
+          <p className="mt-1.5 text-xs text-text-muted">
             Email sending is not available in MVP; invite is recorded for tracking only.
           </p>
         </section>
 
         <section>
-          <h3 className="mb-2 text-sm font-medium text-slate-700">
+          <h3 className="mb-2 text-sm font-medium text-text-primary">
             Invited ({invites.length})
           </h3>
           {invites.length === 0 ? (
-            <p className="rounded-md border border-dashed border-slate-200 px-3 py-4 text-sm text-slate-500">
+            <p className="rounded-[--radius-md] border border-dashed border-border px-3 py-4 text-sm text-text-muted">
               No invites recorded yet.
             </p>
           ) : (
-            <ul className="max-h-48 divide-y divide-slate-100 overflow-y-auto rounded-md border border-slate-200">
+            <ul className="max-h-40 divide-y divide-border overflow-y-auto rounded-[--radius-md] border border-border">
               {invites.map((invite) => {
                 const status = inviteStatus(invite)
 
@@ -167,8 +167,8 @@ export default function ShareModal({ isOpen, onClose, form }) {
                     key={invite.id}
                     className="flex items-center justify-between gap-3 px-3 py-2 text-sm"
                   >
-                    <span className="flex min-w-0 items-center gap-2 text-slate-700">
-                      <Mail className="h-4 w-4 shrink-0 text-slate-400" />
+                    <span className="flex min-w-0 items-center gap-2 text-text-secondary">
+                      <Mail className="h-4 w-4 shrink-0 text-text-muted" />
                       <span className="truncate">{invite.email}</span>
                     </span>
                     <span className={`shrink-0 text-xs font-medium ${status.className}`}>

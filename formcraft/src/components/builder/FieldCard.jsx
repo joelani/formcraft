@@ -52,16 +52,16 @@ export default function FieldCard({ field, isSelected, onSelect, onRemove }) {
       }}
       tabIndex={0}
       className={[
-        'group flex cursor-pointer gap-3 rounded-lg border bg-white p-4 shadow-sm transition-shadow hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2',
+        'group mx-0 mb-2 flex cursor-pointer gap-2 rounded-[--radius-lg] border bg-surface p-3 shadow-sm transition-all hover:border-border-strong hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:ring-offset-2 sm:gap-3 sm:p-4',
         isSelected
-          ? 'border-blue-500 ring-2 ring-blue-500'
-          : 'border-slate-200',
+          ? 'border-brand-300 ring-2 ring-brand-500'
+          : 'border-border',
       ].join(' ')}
     >
       <button
         type="button"
         aria-label="Drag field"
-        className="mt-1 flex h-8 w-8 shrink-0 cursor-grab items-center justify-center rounded-md text-slate-400 opacity-0 transition-colors hover:bg-slate-100 hover:text-slate-700 focus-visible:opacity-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 group-hover:opacity-100"
+        className="mt-0.5 flex h-8 w-8 shrink-0 cursor-grab items-center justify-center rounded-[--radius-md] text-text-disabled opacity-100 transition-colors hover:bg-surface-overlay hover:text-text-muted focus-visible:outline-none sm:opacity-0 sm:focus-visible:opacity-100 sm:group-hover:opacity-100"
         onClick={(event) => event.stopPropagation()}
         {...attributes}
         {...listeners}
@@ -80,7 +80,7 @@ export default function FieldCard({ field, isSelected, onSelect, onRemove }) {
           event.stopPropagation()
           onRemove(field.id)
         }}
-        className="mt-1 flex h-8 w-8 shrink-0 items-center justify-center rounded-md text-slate-400 opacity-0 transition-colors hover:bg-red-50 hover:text-red-600 focus-visible:opacity-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-500 group-hover:opacity-100"
+        className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-[--radius-md] text-text-muted opacity-100 transition-colors hover:bg-danger-light hover:text-danger focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-danger sm:opacity-0 sm:focus-visible:opacity-100 sm:group-hover:opacity-100"
       >
         <Trash2 className="h-4 w-4" />
       </button>

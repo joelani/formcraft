@@ -3,13 +3,13 @@ export default function DropdownField({ field }) {
 
   return (
     <div>
-      <label className="mb-2 block text-sm font-medium text-slate-800">
+      <label className="mb-2 block truncate text-sm font-medium text-text-primary">
         {field.label}
-        {field.required ? <span className="ml-1 text-red-600">*</span> : null}
+        {field.required ? <span className="ml-1 text-danger">*</span> : null}
       </label>
       <select
         disabled
-        className="pointer-events-none h-10 w-full rounded-md border border-slate-300 bg-slate-50 px-3 text-sm text-slate-600 opacity-60"
+        className="pointer-events-none h-10 w-full rounded-[--radius-md] border border-border-strong bg-surface-raised px-3 text-sm text-text-secondary opacity-60"
       >
         {options.map((option, index) => (
           <option key={`${option}-${index}`}>{option || `Option ${index + 1}`}</option>

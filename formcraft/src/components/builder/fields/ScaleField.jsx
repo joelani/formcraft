@@ -5,9 +5,9 @@ export default function ScaleField({ field }) {
 
   return (
     <div>
-      <div className="mb-3 text-sm font-medium text-slate-800">
+      <div className="mb-3 truncate text-sm font-medium text-text-primary">
         {field.label}
-        {field.required ? <span className="ml-1 text-red-600">*</span> : null}
+        {field.required ? <span className="ml-1 text-danger">*</span> : null}
       </div>
       <div className="pointer-events-none flex flex-wrap gap-2 opacity-60">
         {values.map((value) => (
@@ -15,7 +15,7 @@ export default function ScaleField({ field }) {
             key={value}
             type="button"
             disabled
-            className="flex h-9 w-9 items-center justify-center rounded-md border border-slate-300 bg-slate-50 text-sm text-slate-700"
+            className="flex h-9 w-9 items-center justify-center rounded-[--radius-md] border border-border-strong bg-surface-raised text-sm text-text-secondary"
           >
             {value}
           </button>

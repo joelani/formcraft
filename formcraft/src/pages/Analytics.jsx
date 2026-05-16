@@ -49,7 +49,7 @@ export default function Analytics() {
   if (!form) {
     return (
       <div className="p-8">
-        <p className="text-gray-500">Form not found.</p>
+        <p className="text-text-muted">Form not found.</p>
       </div>
     )
   }
@@ -87,8 +87,8 @@ export default function Analytics() {
   }
 
   return (
-    <div className="mx-auto max-w-6xl p-8">
-      <header className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+    <div className="mx-auto max-w-[--content-max-width] p-4 sm:p-6 lg:p-8">
+      <header className="mb-6 flex flex-col gap-3 sm:mb-8 sm:flex-row sm:items-center sm:justify-between">
         <div className="min-w-0">
           <Button
             variant="ghost"
@@ -100,7 +100,7 @@ export default function Analytics() {
             Back to Dashboard
           </Button>
           <div className="mt-3 flex min-w-0 flex-wrap items-center gap-3">
-            <h1 className="truncate text-3xl font-semibold text-slate-950">
+            <h1 className="truncate text-xl font-semibold text-text-primary sm:text-3xl">
               {form.title}
             </h1>
             <Badge variant={form.status}>
@@ -120,7 +120,7 @@ export default function Analytics() {
         </Button>
       </header>
 
-      <div className="mt-8 grid grid-cols-2 gap-4 lg:grid-cols-4">
+      <div className="mt-6 grid grid-cols-2 gap-3 sm:mt-8 sm:gap-4 lg:grid-cols-4">
         <StatCard label="Total Responses" value={totalResponses} icon={Users} />
         <StatCard
           label="Completion Rate"
@@ -151,7 +151,7 @@ export default function Analytics() {
       ) : (
         <>
           <section className="mt-10">
-            <h2 className="mb-4 text-lg font-semibold text-gray-800">
+            <h2 className="mb-4 text-lg font-semibold text-text-primary">
               Response Breakdown
             </h2>
             <div className="space-y-6">
@@ -166,7 +166,7 @@ export default function Analytics() {
           </section>
 
           <section className="mt-10">
-            <h2 className="mb-4 text-lg font-semibold text-gray-800">
+            <h2 className="mb-4 text-lg font-semibold text-text-primary">
               All Responses
             </h2>
             <ResponseTable form={form} submissions={submissions} />

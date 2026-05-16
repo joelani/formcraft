@@ -1,32 +1,44 @@
 import { Link, useLocation } from 'react-router-dom'
-import { LayoutDashboard } from 'lucide-react'
+import { LayoutDashboard, X } from 'lucide-react'
 
-export default function Sidebar() {
+export default function Sidebar({ onClose }) {
   const location = useLocation()
   const isDashboard = location.pathname === '/'
 
   return (
-    <aside className="sticky top-0 z-30 flex flex-col border-b border-slate-200 bg-white md:fixed md:inset-y-0 md:left-0 md:w-64 md:border-b-0 md:border-r">
-      <div className="px-4 py-3 md:border-b md:border-slate-200 md:px-6 md:py-5">
+    <div className="flex h-full flex-col">
+      <div className="flex items-center gap-2 border-b border-border px-4 py-4">
         <Link
           to="/"
-          className="flex items-center gap-3 rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+          onClick={onClose}
+          className="flex min-w-0 flex-1 items-center gap-3 rounded-[--radius-md] focus-visible:outline-none"
         >
-          <div className="flex h-9 w-9 items-center justify-center rounded-md bg-blue-600 text-sm font-bold text-white">
+          <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-[--radius-md] bg-brand-600 text-sm font-bold text-text-inverse">
             FC
           </div>
-          <span className="text-lg font-semibold text-slate-950">FormCraft</span>
+          <span className="truncate text-lg font-bold text-text-primary">
+            FormCraft
+          </span>
         </Link>
+        <button
+          type="button"
+          onClick={onClose}
+          className="rounded-[--radius-md] p-1 text-text-muted transition hover:bg-surface-overlay hover:text-text-primary focus-visible:outline-none lg:hidden"
+          aria-label="Close navigation"
+        >
+          <X className="h-5 w-5" />
+        </button>
       </div>
 
-      <nav className="px-3 pb-3 md:flex-1 md:py-4">
+      <nav className="flex-1 space-y-1 px-3 py-4">
         <Link
           to="/"
+          onClick={onClose}
           className={[
-            'flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-1',
+            'flex w-full items-center gap-2.5 rounded-[--radius-md] px-3 py-2 text-sm font-medium transition-colors focus-visible:outline-none',
             isDashboard
-              ? 'bg-blue-50 text-blue-700'
-              : 'text-slate-600 hover:bg-slate-100 hover:text-slate-950',
+              ? 'bg-brand-50 text-brand-600'
+              : 'text-text-secondary hover:bg-surface-overlay hover:text-text-primary',
           ].join(' ')}
         >
           <LayoutDashboard className="h-4 w-4" />
@@ -34,9 +46,9 @@ export default function Sidebar() {
         </Link>
       </nav>
 
-      <div className="hidden border-t border-slate-200 px-6 py-4 text-xs text-slate-500 md:block">
+      <div className="border-t border-border px-4 py-4 text-xs text-text-muted">
         FormCraft v0.1
       </div>
-    </aside>
+    </div>
   )
 }

@@ -1,15 +1,15 @@
 const variants = {
-  primary: 'bg-blue-600 text-white hover:bg-blue-700 focus-visible:ring-blue-500',
+  primary: 'bg-brand-600 text-text-inverse hover:bg-brand-700 focus-visible:ring-brand-500',
   secondary:
-    'border border-slate-300 bg-white text-slate-900 hover:bg-slate-50 focus-visible:ring-slate-400',
-  ghost: 'text-slate-700 hover:bg-slate-100 focus-visible:ring-slate-400',
-  danger: 'bg-red-600 text-white hover:bg-red-700 focus-visible:ring-red-500',
+    'bg-surface border border-border text-text-primary hover:bg-surface-overlay focus-visible:ring-brand-500',
+  ghost: 'text-text-secondary hover:bg-surface-overlay focus-visible:ring-brand-500',
+  danger: 'bg-danger text-text-inverse hover:bg-danger/90 focus-visible:ring-danger',
 }
 
 const sizes = {
-  sm: 'h-8 px-3 text-sm',
-  md: 'h-10 px-4 text-sm',
-  lg: 'h-12 px-5 text-base',
+  sm: 'px-3 py-1.5 text-xs rounded-[--radius-md]',
+  md: 'px-4 py-2 text-sm rounded-[--radius-md]',
+  lg: 'px-5 py-2.5 text-base rounded-[--radius-lg]',
 }
 
 export function Button({
@@ -27,7 +27,7 @@ export function Button({
       onClick={onClick}
       disabled={disabled}
       className={[
-        'inline-flex items-center justify-center rounded-md font-medium transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50',
+        'inline-flex items-center justify-center gap-1.5 font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50',
         variants[variant] ?? variants.primary,
         sizes[size] ?? sizes.md,
         className,

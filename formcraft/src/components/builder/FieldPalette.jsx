@@ -32,23 +32,23 @@ export default function FieldPalette({ formId, onFieldAdded }) {
   }
 
   return (
-    <aside className="h-full w-64 shrink-0 overflow-y-auto border-r border-slate-200 bg-slate-50">
-      <div className="border-b border-slate-200 px-4 py-3">
-        <h2 className="text-xs font-semibold uppercase tracking-wide text-slate-500">
+    <aside className="h-full overflow-y-auto">
+      <div className="border-b border-border px-4 py-3">
+        <h2 className="text-xs font-semibold uppercase tracking-wider text-text-muted">
           Add Fields
         </h2>
       </div>
 
-      <div className="space-y-1 p-3">
+      <div className="space-y-1 py-2">
         {FIELD_TYPES.map(({ type, label, icon: Icon }) => (
           <button
             key={type}
             type="button"
             onClick={() => handleAddField(type)}
-            className="flex w-full items-center gap-3 rounded-md px-3 py-2.5 text-left text-sm font-medium text-slate-700 transition-colors hover:bg-blue-50 hover:text-blue-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-1"
+            className="flex w-full items-center gap-2.5 px-4 py-2.5 text-left text-sm text-text-secondary transition-colors hover:bg-brand-50 hover:text-brand-600 focus-visible:outline-none"
           >
             <Icon className="h-4 w-4 shrink-0" />
-            <span>{label}</span>
+            <span className="min-w-0 truncate">{label}</span>
           </button>
         ))}
       </div>

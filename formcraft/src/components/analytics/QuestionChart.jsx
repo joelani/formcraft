@@ -17,14 +17,14 @@ function hasResponse(value) {
 
 function SimpleBarChart({ data }) {
   return (
-    <ResponsiveContainer width="100%" height={200}>
+    <ResponsiveContainer width="100%" height={180}>
       <BarChart data={data} margin={{ top: 0, right: 0, left: -20, bottom: 0 }}>
         <XAxis dataKey="name" tick={{ fontSize: 12 }} />
         <YAxis allowDecimals={false} tick={{ fontSize: 12 }} />
         <Tooltip />
         <Bar dataKey="count" radius={[4, 4, 0, 0]}>
           {data.map((item) => (
-            <Cell key={item.name} fill="#2563eb" />
+            <Cell key={item.name} fill="var(--color-brand-500)" />
           ))}
         </Bar>
       </BarChart>
@@ -85,8 +85,13 @@ function ScaleChart({ field, submissions }) {
     <>
       {avg ? (
         <div className="mb-3">
-          <span className="text-2xl font-bold text-blue-600">{avg}</span>
-          <span className="ml-1 text-sm text-gray-400">/ {max} avg</span>
+          <span
+            style={{ color: 'var(--color-brand-600)' }}
+            className="text-2xl font-bold"
+          >
+            {avg}
+          </span>
+          <span className="ml-1 text-sm text-text-muted">/ {max} avg</span>
         </div>
       ) : null}
       <SimpleBarChart data={chartData} />
@@ -102,7 +107,7 @@ function TextResponses({ field, submissions }) {
     .reverse()
 
   if (textResponses.length === 0) {
-    return <p className="text-sm italic text-gray-400">No responses yet</p>
+    return <p className="text-sm italic text-text-muted">No responses yet</p>
   }
 
   return (
@@ -110,7 +115,7 @@ function TextResponses({ field, submissions }) {
       {textResponses.map((response, index) => (
         <li
           key={`${field.id}-${index}`}
-          className="rounded-md border border-gray-100 bg-gray-50 px-3 py-2 text-sm text-gray-700"
+          className="rounded-[--radius-md] border border-border bg-surface-raised px-3 py-2 text-sm text-text-secondary"
         >
           {String(response)}
         </li>
@@ -125,9 +130,9 @@ export default function QuestionChart({ field, submissions }) {
   ).length
 
   return (
-    <div className="rounded-lg border border-gray-200 bg-white p-6 shadow-sm">
-      <h3 className="mb-1 text-sm font-medium text-gray-700">{field.label}</h3>
-      <p className="mb-4 text-xs text-gray-400">
+    <div className="rounded-[--radius-xl] border border-border bg-surface p-4 shadow-sm sm:p-6">
+      <h3 className="mb-1 truncate text-sm font-medium text-text-secondary">{field.label}</h3>
+      <p className="mb-4 text-xs text-text-muted">
         {responseCount} response{responseCount !== 1 ? 's' : ''}
       </p>
 

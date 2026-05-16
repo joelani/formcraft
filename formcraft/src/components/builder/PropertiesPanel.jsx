@@ -6,8 +6,8 @@ const PLACEHOLDER_TYPES = ['text', 'textarea', 'email']
 
 function ControlGroup({ label, children }) {
   return (
-    <label className="mb-4 block">
-      <span className="mb-1.5 block text-sm font-medium text-slate-700">
+    <label className="block">
+      <span className="mb-1.5 block text-sm font-medium text-text-primary">
         {label}
       </span>
       {children}
@@ -19,7 +19,7 @@ function TextInput(props) {
   return (
     <input
       {...props}
-      className="h-10 w-full rounded-md border border-slate-300 bg-white px-3 text-sm text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+      className="h-10 w-full min-w-0 rounded-[--radius-md] border border-border-strong bg-surface px-3 text-sm text-text-primary outline-none transition placeholder:text-text-muted focus:border-transparent focus:ring-2 focus:ring-brand-500"
     />
   )
 }
@@ -71,16 +71,16 @@ export default function PropertiesPanel({ formId, fieldId }) {
   }
 
   return (
-    <aside className="h-full w-72 shrink-0 overflow-y-auto border-l border-slate-200 bg-white">
-      <div className="border-b border-slate-200 px-5 py-3">
-        <h2 className="text-xs font-semibold uppercase tracking-wide text-slate-500">
+    <aside className="h-full overflow-y-auto">
+      <div className="sticky top-0 z-10 border-b border-border bg-surface px-4 py-3">
+        <h2 className="text-xs font-semibold uppercase tracking-wider text-text-muted">
           Field Properties
         </h2>
       </div>
 
-      <div className="p-5">
+      <div className="space-y-5 px-4 py-4">
         {!field ? (
-          <p className="text-sm leading-6 text-slate-500">
+          <p className="text-sm leading-6 text-text-muted">
             Select a field to edit its properties
           </p>
         ) : (
@@ -104,8 +104,8 @@ export default function PropertiesPanel({ formId, fieldId }) {
             ) : null}
 
             {field.type !== 'heading' ? (
-              <div className="mb-5 flex items-center justify-between gap-3">
-                <span className="text-sm font-medium text-slate-700">Required</span>
+              <div className="flex items-center justify-between gap-3">
+                <span className="text-sm font-medium text-text-primary">Required</span>
                 <button
                   type="button"
                   role="switch"
@@ -113,12 +113,12 @@ export default function PropertiesPanel({ formId, fieldId }) {
                   onClick={() => patchField({ required: !field.required })}
                   className={[
                     'flex h-6 w-11 items-center rounded-full p-0.5 transition',
-                    field.required ? 'bg-blue-600' : 'bg-slate-300',
+                    field.required ? 'bg-brand-600' : 'bg-border-strong',
                   ].join(' ')}
                 >
                   <span
                     className={[
-                      'h-5 w-5 rounded-full bg-white shadow transition',
+                      'h-5 w-5 rounded-[--radius-full] bg-surface shadow transition',
                       field.required ? 'translate-x-5' : 'translate-x-0',
                     ].join(' ')}
                   />
@@ -127,8 +127,8 @@ export default function PropertiesPanel({ formId, fieldId }) {
             ) : null}
 
             {OPTION_TYPES.includes(field.type) ? (
-              <div className="mb-5">
-                <div className="mb-2 text-sm font-medium text-slate-700">Options</div>
+              <div>
+                <div className="mb-2 text-sm font-medium text-text-primary">Options</div>
                 <div className="space-y-2">
                   {(field.options?.length ? field.options : ['Option 1']).map(
                     (option, index) => (
@@ -142,7 +142,7 @@ export default function PropertiesPanel({ formId, fieldId }) {
                           aria-label={`Remove option ${index + 1}`}
                           disabled={(field.options?.length ?? 1) <= 1}
                           onClick={() => removeOption(index)}
-                          className="flex h-10 w-10 shrink-0 items-center justify-center rounded-md text-slate-500 transition hover:bg-red-50 hover:text-red-600 disabled:pointer-events-none disabled:opacity-40"
+                          className="flex h-10 w-10 shrink-0 items-center justify-center rounded-[--radius-md] text-text-muted transition hover:bg-danger-light hover:text-danger disabled:pointer-events-none disabled:opacity-40"
                         >
                           <X className="h-4 w-4" />
                         </button>
@@ -153,7 +153,7 @@ export default function PropertiesPanel({ formId, fieldId }) {
                 <button
                   type="button"
                   onClick={addOption}
-                  className="mt-3 inline-flex items-center gap-2 rounded-md px-2 py-1.5 text-sm font-medium text-blue-700 transition hover:bg-blue-50"
+                  className="mt-3 inline-flex items-center gap-2 rounded-[--radius-md] px-2 py-1.5 text-sm font-medium text-brand-600 transition hover:bg-brand-50"
                 >
                   <Plus className="h-4 w-4" />
                   Add option

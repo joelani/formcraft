@@ -3,7 +3,7 @@ import { generateId } from '../../lib/idgen.js'
 import { useSubmissionStore } from '../../store/useSubmissionStore.js'
 
 const inputClasses =
-  'w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500'
+  'w-full rounded-[--radius-md] border border-border-strong bg-surface px-3 py-2 text-sm text-text-primary placeholder:text-text-muted focus:outline-none focus:ring-2 focus:ring-brand-500'
 
 export default function FormRenderer({ form, startTime, onSubmitted }) {
   const addSubmission = useSubmissionStore((state) => state.addSubmission)
@@ -163,17 +163,17 @@ export default function FormRenderer({ form, startTime, onSubmitted }) {
           <div className="space-y-2">
             {options.map((option) => (
               <label
-                className="flex items-center gap-2 text-sm text-gray-700"
+                className="flex min-w-0 items-center gap-2 text-sm text-text-secondary"
                 key={option}
               >
                 <input
                   checked={value === option}
-                  className="h-4 w-4 border-gray-300 text-blue-600 focus:ring-blue-500"
+                  className="h-4 w-4 border-border-strong text-brand-600 focus:ring-brand-500"
                   name={field.id}
                   onChange={() => updateResponse(field.id, option)}
                   type="radio"
                 />
-                <span>{option}</span>
+                <span className="min-w-0 truncate">{option}</span>
               </label>
             ))}
           </div>
@@ -183,18 +183,18 @@ export default function FormRenderer({ form, startTime, onSubmitted }) {
           <div className="space-y-2">
             {options.map((option) => (
               <label
-                className="flex items-center gap-2 text-sm text-gray-700"
+                className="flex min-w-0 items-center gap-2 text-sm text-text-secondary"
                 key={option}
               >
                 <input
                   checked={(responses[field.id] || []).includes(option)}
-                  className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                  className="h-4 w-4 rounded border-border-strong text-brand-600 focus:ring-brand-500"
                   onChange={(event) =>
                     handleCheckbox(field.id, option, event.target.checked)
                   }
                   type="checkbox"
                 />
-                <span>{option}</span>
+                <span className="min-w-0 truncate">{option}</span>
               </label>
             ))}
           </div>
@@ -214,10 +214,10 @@ export default function FormRenderer({ form, startTime, onSubmitted }) {
 
               return (
                 <button
-                  className={`h-10 min-w-10 rounded-md px-3 text-sm font-medium transition-colors ${
+                  className={`h-10 min-w-10 rounded-[--radius-md] px-3 text-sm font-medium transition-colors ${
                     selected
-                      ? 'bg-blue-600 text-white'
-                      : 'border border-gray-300 bg-white text-gray-700 hover:bg-gray-50'
+                      ? 'bg-brand-600 text-text-inverse'
+                      : 'border border-border-strong bg-surface text-text-secondary hover:bg-surface-raised'
                   }`}
                   key={number}
                   onClick={() => updateResponse(field.id, String(number))}
@@ -232,7 +232,7 @@ export default function FormRenderer({ form, startTime, onSubmitted }) {
       }
       case 'heading':
         return (
-          <h2 className="text-xl font-semibold text-gray-800">
+          <h2 className="text-xl font-semibold text-text-primary">
             {field.label}
           </h2>
         )
@@ -242,24 +242,24 @@ export default function FormRenderer({ form, startTime, onSubmitted }) {
   }
 
   return (
-    <form className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm sm:p-8">
+    <form className="rounded-[--radius-xl] border border-border bg-surface p-5 shadow-md sm:p-8">
       {sortedFields.map((field) => (
         <div className="mb-6" id={field.id} key={field.id}>
           {field.type !== 'heading' && (
-            <label className="mb-1 block text-sm font-medium text-gray-700">
+            <label className="mb-1 block text-sm font-medium text-text-secondary">
               {field.label}
-              {field.required && <span className="ml-1 text-red-500">*</span>}
+              {field.required && <span className="ml-1 text-danger">*</span>}
             </label>
           )}
           {renderField(field)}
           {errors[field.id] && (
-            <p className="mt-1 text-sm text-red-500">{errors[field.id]}</p>
+            <p className="mt-1 text-sm text-danger">{errors[field.id]}</p>
           )}
         </div>
       ))}
 
       <button
-        className="mt-6 w-full rounded-md bg-blue-600 px-6 py-3 font-medium text-white transition-colors hover:bg-blue-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+        className="mt-6 w-full rounded-[--radius-md] bg-brand-600 px-6 py-3 font-medium text-text-inverse transition-colors hover:bg-brand-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:ring-offset-2"
         onClick={handleSubmit}
         type="button"
       >
