@@ -20,6 +20,19 @@ export default function PublicForm() {
   )
 
   useEffect(() => {
+    const root = document.documentElement
+    const wasDark = root.classList.contains('dark')
+
+    root.classList.remove('dark')
+
+    return () => {
+      if (wasDark) {
+        root.classList.add('dark')
+      }
+    }
+  }, [])
+
+  useEffect(() => {
     if (!form || form.status !== 'published') return
 
     const sessionKey = `formcraft-opened-invite-${form.id}`
