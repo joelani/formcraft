@@ -1,3 +1,8 @@
+// Theme initialization: runs before React mounts to prevent flash.
+const savedTheme = localStorage.getItem('formcraft-theme')
+const isDark = savedTheme === 'dark'
+document.documentElement.classList.toggle('dark', isDark)
+
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { BrowserRouter } from 'react-router-dom'
