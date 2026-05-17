@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@variant dark (&:where(.dark, .dark *));
 
 @theme {
   /* Brand: Indigo/Violet */
@@ -62,12 +63,63 @@
   --content-max-width:     1280px;
 }
 
+/* Dark Mode Token Overrides */
+.dark {
+  /* Brand: glowing violet, lighter on dark */
+  --color-brand-50:  #1a1333;
+  --color-brand-100: #231a4a;
+  --color-brand-200: #2d2260;
+  --color-brand-300: #4c3d9e;
+  --color-brand-400: #6d5fd4;
+  --color-brand-500: #8b7ff0;
+  --color-brand-600: #a99df5;
+  --color-brand-700: #c4bbf8;
+  --color-brand-800: #ddd9fb;
+  --color-brand-900: #f0eeff;
+
+  /* Surfaces: deep slate, not navy */
+  --color-surface:         #111113;
+  --color-surface-raised:  #18181b;
+  --color-surface-overlay: #222226;
+
+  /* Borders: barely visible, refined */
+  --color-border:          #2a2a30;
+  --color-border-strong:   #3a3a42;
+
+  /* Text: warm whites, not pure white */
+  --color-text-primary:    #ededef;
+  --color-text-secondary:  #a0a0ab;
+  --color-text-muted:      #62626a;
+  --color-text-disabled:   #3f3f46;
+  --color-text-inverse:    #111113;
+
+  /* Semantic: vivid but not harsh */
+  --color-success:         #3dd68c;
+  --color-success-light:   #0d2e1f;
+  --color-warning:         #f5a623;
+  --color-warning-light:   #2d1f06;
+  --color-danger:          #f26464;
+  --color-danger-light:    #2d0e0e;
+  --color-info:            #5aabff;
+  --color-info-light:      #0d1f35;
+}
+
+.dark body {
+  background-color: var(--color-surface-raised);
+  background-image: radial-gradient(
+    ellipse 80% 50% at 50% -20%,
+    rgba(139, 127, 240, 0.08),
+    transparent
+  );
+}
+
 *, *::before, *::after {
   box-sizing: border-box;
 }
 
 html {
   -webkit-text-size-adjust: 100%;
+  transition: background-color 0.2s ease, color 0.2s ease;
 }
 
 body {
@@ -99,6 +151,17 @@ body {
 :focus-visible {
   outline: 2px solid var(--color-brand-500);
   outline-offset: 2px;
+}
+
+/* Recharts dark mode tooltip */
+.dark .recharts-tooltip-wrapper .recharts-default-tooltip {
+  background-color: var(--color-surface-raised) !important;
+  border-color: var(--color-border) !important;
+  color: var(--color-text-primary) !important;
+}
+
+.dark .recharts-cartesian-axis-tick-value {
+  fill: var(--color-text-muted);
 }
 
 @keyframes toast-in {

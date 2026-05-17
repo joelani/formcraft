@@ -1,9 +1,11 @@
 import { useState } from 'react'
-import { Menu } from 'lucide-react'
+import { Menu, Moon, Sun } from 'lucide-react'
 import Sidebar from './Sidebar.jsx'
+import { useTheme } from '../../lib/useTheme.js'
 
 export default function AppShell({ children }) {
   const [sidebarOpen, setSidebarOpen] = useState(false)
+  const { isDark, toggleTheme } = useTheme()
 
   return (
     <div className="flex h-screen overflow-hidden bg-surface-raised">
@@ -29,12 +31,22 @@ export default function AppShell({ children }) {
           <button
             type="button"
             onClick={() => setSidebarOpen(true)}
-            className="text-text-secondary transition hover:text-text-primary focus-visible:outline-none"
+            className="shrink-0 text-text-secondary transition hover:text-text-primary focus-visible:outline-none"
             aria-label="Open navigation"
           >
             <Menu size={20} />
           </button>
-          <span className="font-semibold text-text-primary">FormCraft</span>
+          <span className="flex-1 truncate font-semibold text-text-primary">
+            FormCraft
+          </span>
+          <button
+            type="button"
+            onClick={toggleTheme}
+            className="shrink-0 text-text-secondary transition-colors hover:text-text-primary focus-visible:outline-none"
+            aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
+          >
+            {isDark ? <Sun size={18} /> : <Moon size={18} />}
+          </button>
         </div>
         <div className="flex-1 overflow-y-auto">{children}</div>
       </main>

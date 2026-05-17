@@ -1,8 +1,10 @@
 import { Link, useLocation } from 'react-router-dom'
-import { LayoutDashboard, X } from 'lucide-react'
+import { LayoutDashboard, Moon, Sun, X } from 'lucide-react'
+import { useTheme } from '../../lib/useTheme.js'
 
 export default function Sidebar({ onClose }) {
   const location = useLocation()
+  const { isDark, toggleTheme } = useTheme()
   const isDashboard = location.pathname === '/'
 
   return (
@@ -46,8 +48,26 @@ export default function Sidebar({ onClose }) {
         </Link>
       </nav>
 
-      <div className="border-t border-border px-4 py-4 text-xs text-text-muted">
-        FormCraft v0.1
+      <div className="space-y-1 border-t border-border p-3">
+        <button
+          type="button"
+          onClick={toggleTheme}
+          className="flex w-full items-center gap-2.5 rounded-md px-3 py-2 text-sm font-medium text-text-secondary transition-colors hover:bg-surface-overlay hover:text-text-primary focus-visible:outline-none"
+        >
+          {isDark ? (
+            <>
+              <Sun size={16} className="text-warning" />
+              <span>Light Mode</span>
+            </>
+          ) : (
+            <>
+              <Moon size={16} className="text-brand-400" />
+              <span>Dark Mode</span>
+            </>
+          )}
+        </button>
+
+        <p className="px-3 py-1 text-xs text-text-muted">FormCraft v0.1</p>
       </div>
     </div>
   )
