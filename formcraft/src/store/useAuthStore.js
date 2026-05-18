@@ -35,8 +35,14 @@ export const useAuthStore = create((set, get) => ({
     set({ authSubscription: subscription })
   },
 
-  signUp: async (email, password) => {
-    const { data, error } = await supabase.auth.signUp({ email, password })
+  signUp: async (email, password, name = '') => {
+    const { data, error } = await supabase.auth.signUp({
+      email,
+      password,
+      options: {
+        data: { full_name: name },
+      },
+    })
     if (error) throw error
     return data
   },

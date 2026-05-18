@@ -1,11 +1,20 @@
-import { Link, useLocation } from 'react-router-dom'
-import { LayoutDashboard, Moon, Sun, X } from 'lucide-react'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
+import { LayoutDashboard, LogOut, Moon, Sun, User, X } from 'lucide-react'
 import { useTheme } from '../../lib/useTheme.js'
+import { useAuthStore } from '../../store/useAuthStore.js'
 
 export default function Sidebar({ onClose }) {
   const location = useLocation()
+  const navigate = useNavigate()
   const { isDark, toggleTheme } = useTheme()
+  const user = useAuthStore((state) => state.user)
+  const signOut = useAuthStore((state) => state.signOut)
   const isDashboard = location.pathname === '/'
+
+  async function handleSignOut() {
+    await signOut()
+    navigate('/login', { replace: true })
+  }
 
   return (
     <div className="flex h-full flex-col">
@@ -49,6 +58,37 @@ export default function Sidebar({ onClose }) {
       </nav>
 
       <div className="space-y-1 border-t border-border p-3">
+        {user ? (
+          <div className="flex items-center gap-2.5 rounded-md px-3 py-2">
+            <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-brand-100">
+              {user.user_metadata?.avatar_url ? (
+                <img
+                  src={user.user_metadata.avatar_url}
+                  alt="avatar"
+                  className="h-7 w-7 rounded-full object-cover"
+                />
+              ) : (
+                <User size={14} className="text-brand-600" />
+              )}
+            </div>
+            <div className="min-w-0 flex-1">
+              <p className="truncate text-xs font-medium text-text-primary">
+                {user.user_metadata?.full_name || user.email?.split('@')[0]}
+              </p>
+              <p className="truncate text-xs text-text-muted">{user.email}</p>
+            </div>
+          </div>
+        ) : null}
+
+        <button
+          type="button"
+          onClick={handleSignOut}
+          className="flex w-full items-center gap-2.5 rounded-md px-3 py-2 text-sm font-medium text-text-secondary transition-colors hover:bg-danger-light hover:text-danger focus-visible:outline-none"
+        >
+          <LogOut size={16} />
+          <span>Sign out</span>
+        </button>
+
         <button
           type="button"
           onClick={toggleTheme}
