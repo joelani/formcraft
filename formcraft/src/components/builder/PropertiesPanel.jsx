@@ -28,23 +28,35 @@ export default function PropertiesPanel({ formId, fieldId }) {
   const form = useFormStore((state) =>
     state.forms.find((item) => item.id === formId),
   );
+  const updateFieldLocal = useFormStore((state) => state.updateFieldLocal);
   const updateField = useFormStore((state) => state.updateField);
   const field = form?.fields.find((item) => item.id === fieldId);
 
-  const patchField = (patch) => {
+  const patchFieldLocal = (patch) => {
     if (!field) return;
-    updateField(formId, field.id, patch);
+    updateFieldLocal(formId, field.id, patch);
+  };
+
+  const persistField = async (patch) => {
+    if (!field) return;
+    await updateField(formId, field.id, patch);
   };
 
   const updateOption = (index, value) => {
     const options = [...(field.options ?? [])];
     options[index] = value;
-    patchField({ options });
+    patchFieldLocal({ options });
+  };
+
+  const persistOption = (index, value) => {
+    const options = [...(field.options ?? [])];
+    options[index] = value;
+    persistField({ options });
   };
 
   const addOption = () => {
     const options = field.options?.length ? field.options : [];
-    patchField({ options: [...options, `Option ${options.length + 1}`] });
+    persistField({ options: [...options, `Option ${options.length + 1}`] });
   };
 
   const removeOption = (index) => {
@@ -52,7 +64,7 @@ export default function PropertiesPanel({ formId, fieldId }) {
 
     if (options.length <= 1) return;
 
-    patchField({
+    persistField({
       options: options.filter((_, optionIndex) => optionIndex !== index),
     });
   };
@@ -60,7 +72,7 @@ export default function PropertiesPanel({ formId, fieldId }) {
   const updateScaleMin = (value) => {
     const nextMin = Math.max(1, Math.min(Number(value) || 1, 9));
     const currentMax = Number(field.scaleMax ?? 5);
-    patchField({
+    patchFieldLocal({
       scaleMin: nextMin,
       scaleMax: Math.max(currentMax, nextMin + 1),
     });
@@ -72,7 +84,7 @@ export default function PropertiesPanel({ formId, fieldId }) {
       10,
       Math.max(Number(value) || currentMin + 1, currentMin + 1),
     );
-    patchField({ scaleMax: nextMax });
+    patchFieldLocal({ scaleMax: nextMax });
   };
 
   return (
@@ -95,7 +107,10 @@ export default function PropertiesPanel({ formId, fieldId }) {
             >
               <TextInput
                 value={field.label}
-                onChange={(event) => patchField({ label: event.target.value })}
+                onChange={(event) =>
+                  patchFieldLocal({ label: event.target.value })
+                }
+                onBlur={(event) => persistField({ label: event.target.value })}
               />
             </ControlGroup>
 
@@ -104,7 +119,10 @@ export default function PropertiesPanel({ formId, fieldId }) {
                 <TextInput
                   value={field.placeholder ?? ""}
                   onChange={(event) =>
-                    patchField({ placeholder: event.target.value })
+                    patchFieldLocal({ placeholder: event.target.value })
+                  }
+                  onBlur={(event) =>
+                    persistField({ placeholder: event.target.value })
                   }
                 />
               </ControlGroup>
@@ -119,7 +137,11 @@ export default function PropertiesPanel({ formId, fieldId }) {
                   type="button"
                   role="switch"
                   aria-checked={field.required}
-                  onClick={() => patchField({ required: !field.required })}
+                  onClick={() => {
+                    const required = !field.required;
+                    patchFieldLocal({ required });
+                    persistField({ required });
+                  }}
                   className={[
                     "flex h-6 w-11 items-center rounded-full p-0.5 transition",
                     field.required ? "bg-brand-600" : "bg-border-strong",
@@ -148,6 +170,9 @@ export default function PropertiesPanel({ formId, fieldId }) {
                           value={option}
                           onChange={(event) =>
                             updateOption(index, event.target.value)
+                          }
+                          onBlur={(event) =>
+                            persistOption(index, event.target.value)
                           }
                         />
                         <button
@@ -183,6 +208,12 @@ export default function PropertiesPanel({ formId, fieldId }) {
                     max={9}
                     value={field.scaleMin ?? 1}
                     onChange={(event) => updateScaleMin(event.target.value)}
+                    onBlur={() =>
+                      persistField({
+                        scaleMin: field.scaleMin ?? 1,
+                        scaleMax: field.scaleMax ?? 5,
+                      })
+                    }
                   />
                 </ControlGroup>
                 <ControlGroup label="Max value">
@@ -192,6 +223,7 @@ export default function PropertiesPanel({ formId, fieldId }) {
                     max={10}
                     value={field.scaleMax ?? 5}
                     onChange={(event) => updateScaleMax(event.target.value)}
+                    onBlur={() => persistField({ scaleMax: field.scaleMax ?? 5 })}
                   />
                 </ControlGroup>
               </div>

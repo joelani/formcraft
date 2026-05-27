@@ -60,7 +60,7 @@ export default function FieldCard({ field, isSelected, onSelect, onRemove }) {
         type="button"
         aria-label="Drag field"
         style={{ touchAction: "none" }}
-        className="mt-0.5 flex h-8 w-8 shrink-0 touch-none cursor-grab items-center justify-center rounded-md text-text-disabled opacity-100 transition-colors hover:bg-surface-overlay hover:text-text-muted focus-visible:outline-none sm:opacity-0 sm:focus-visible:opacity-100 sm:group-hover:opacity-100"
+        className="mt-0.5 flex h-8 w-8 shrink-0 touch-none cursor-grab items-center justify-center rounded-md text-text-disabled opacity-100 transition-colors hover:bg-surface-overlay hover:text-text-muted focus-visible:outline-none  sm:focus-visible:opacity-100 sm:group-hover:opacity-100"
         onClick={(event) => event.stopPropagation()}
         {...attributes}
         {...listeners}

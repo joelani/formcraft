@@ -26,8 +26,8 @@ const FIELD_TYPES = [
 export default function FieldPalette({ formId, onFieldAdded }) {
   const addField = useFormStore((state) => state.addField)
 
-  const handleAddField = (type) => {
-    const fieldId = addField(formId, type)
+  const handleAddField = async (type) => {
+    const fieldId = await addField(formId, type)
     onFieldAdded?.(fieldId)
   }
 

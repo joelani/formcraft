@@ -36,6 +36,7 @@ export default function BuilderCanvas({ formId, selectedFieldId, onSelectField }
     state.forms.find((item) => item.id === formId),
   )
   const removeField = useFormStore((state) => state.removeField)
+  const reorderFieldsLocal = useFormStore((state) => state.reorderFieldsLocal)
   const reorderFields = useFormStore((state) => state.reorderFields)
   const fields = [...(form?.fields ?? [])].sort(
     (first, second) => (first.order ?? 0) - (second.order ?? 0),
@@ -63,11 +64,12 @@ export default function BuilderCanvas({ formId, selectedFieldId, onSelectField }
     const oldIndex = fields.findIndex((field) => field.id === active.id)
     const newIndex = fields.findIndex((field) => field.id === over.id)
     const reordered = arrayMove(fields, oldIndex, newIndex)
+    reorderFieldsLocal(formId, reordered)
     reorderFields(formId, reordered)
   }
 
-  const handleRemove = (fieldId) => {
-    removeField(formId, fieldId)
+  const handleRemove = async (fieldId) => {
+    await removeField(formId, fieldId)
     if (fieldId === selectedFieldId) {
       onSelectField(null)
     }

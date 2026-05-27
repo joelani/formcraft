@@ -7,6 +7,7 @@ import {
   TrendingUp,
   Users,
 } from 'lucide-react'
+import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import QuestionChart from '../components/analytics/QuestionChart.jsx'
 import ResponseTable from '../components/analytics/ResponseTable.jsx'
@@ -40,11 +41,41 @@ function filenameFor(title) {
 export default function Analytics() {
   const { formId } = useParams()
   const navigate = useNavigate()
-  const form = useFormStore((state) => state.getForm(formId))
+  const fetchForm = useFormStore((state) => state.fetchForm)
+  const [form, setForm] = useState(null)
+  const [loading, setLoading] = useState(true)
   const getSubmissionsByForm = useSubmissionStore(
     (state) => state.getSubmissionsByForm,
   )
   const getInvitesByForm = useSubmissionStore((state) => state.getInvitesByForm)
+
+  useEffect(() => {
+    let cancelled = false
+
+    async function loadForm() {
+      setLoading(true)
+      const data = await fetchForm(formId)
+
+      if (!cancelled) {
+        setForm(data)
+        setLoading(false)
+      }
+    }
+
+    loadForm()
+
+    return () => {
+      cancelled = true
+    }
+  }, [fetchForm, formId])
+
+  if (loading) {
+    return (
+      <div className="flex min-h-full items-center justify-center p-8">
+        <div className="h-6 w-6 animate-spin rounded-full border-2 border-brand-500 border-t-transparent" />
+      </div>
+    )
+  }
 
   if (!form) {
     return (
@@ -75,7 +106,7 @@ export default function Analytics() {
             0,
           ) / totalResponses,
         )
-  const answerableFields = form.fields
+  const answerableFields = (form.fields ?? [])
     .filter((field) => field.type !== 'heading')
     .sort((a, b) => a.order - b.order)
 

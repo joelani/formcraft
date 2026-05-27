@@ -17,6 +17,7 @@ export default function Builder() {
   const form = useFormStore((state) =>
     state.forms.find((item) => item.id === formId),
   )
+  const fetchForm = useFormStore((state) => state.fetchForm)
   const updateForm = useFormStore((state) => state.updateForm)
   const saveDraft = useFormStore((state) => state.saveDraft)
   const publishForm = useFormStore((state) => state.publishForm)
@@ -25,6 +26,34 @@ export default function Builder() {
   const [mobilePanel, setMobilePanel] = useState('canvas')
   const [shareOpen, setShareOpen] = useState(false)
   const [titleValue, setTitleValue] = useState(form?.title ?? '')
+  const [pageLoading, setPageLoading] = useState(true)
+
+  useEffect(() => {
+    let cancelled = false
+
+    async function loadForm() {
+      setPageLoading(true)
+      const data = await fetchForm(formId)
+
+      if (cancelled) return
+
+      if (data) {
+        useFormStore.setState((state) => ({
+          forms: state.forms.some((item) => item.id === data.id)
+            ? state.forms.map((item) => (item.id === data.id ? data : item))
+            : [...state.forms, data],
+        }))
+      }
+
+      setPageLoading(false)
+    }
+
+    loadForm()
+
+    return () => {
+      cancelled = true
+    }
+  }, [fetchForm, formId])
 
   useEffect(() => {
     if (!editingTitle) {
@@ -35,11 +64,19 @@ export default function Builder() {
   useEffect(() => {
     if (
       selectedFieldId &&
-      !form?.fields.some((field) => field.id === selectedFieldId)
+      !(form?.fields ?? []).some((field) => field.id === selectedFieldId)
     ) {
       setSelectedFieldId(null)
     }
   }, [form?.fields, selectedFieldId])
+
+  if (pageLoading) {
+    return (
+      <div className="flex min-h-full items-center justify-center p-8">
+        <div className="h-6 w-6 animate-spin rounded-full border-2 border-brand-500 border-t-transparent" />
+      </div>
+    )
+  }
 
   if (!form) {
     return (
@@ -62,19 +99,31 @@ export default function Builder() {
     )
   }
 
-  const commitTitle = () => {
-    updateForm(formId, { title: titleValue.trim() || 'Untitled Form' })
+  const commitTitle = async () => {
+    try {
+      await updateForm(formId, { title: titleValue.trim() || 'Untitled Form' })
+    } catch {
+      toast.error('Failed to save title')
+    }
     setEditingTitle(false)
   }
 
-  const handleSaveDraft = () => {
-    saveDraft(formId)
-    toast.success('Draft saved')
+  const handleSaveDraft = async () => {
+    try {
+      await saveDraft(formId)
+      toast.success('Draft saved')
+    } catch {
+      toast.error('Failed to save draft')
+    }
   }
 
-  const handlePublish = () => {
-    publishForm(formId)
-    toast.success('Form published!')
+  const handlePublish = async () => {
+    try {
+      await publishForm(formId)
+      toast.success('Form published!')
+    } catch {
+      toast.error('Failed to publish form')
+    }
   }
 
   const handleFieldSelect = (fieldId) => {

@@ -8,11 +8,11 @@ import { useSubmissionStore } from '../store/useSubmissionStore.js'
 export default function PublicForm() {
   const { formId } = useParams()
   const [submitted, setSubmitted] = useState(false)
+  const [form, setForm] = useState(null)
+  const [loading, setLoading] = useState(true)
   const startTime = useRef(Date.now())
   const trackedInviteId = useRef(null)
-  const form = useFormStore((state) =>
-    state.forms.find((item) => item.id === formId || item.shareToken === formId),
-  )
+  const fetchForm = useFormStore((state) => state.fetchForm)
   const getInvitesByForm = useSubmissionStore((state) => state.getInvitesByForm)
   const markInviteOpened = useSubmissionStore((state) => state.markInviteOpened)
   const markInviteSubmitted = useSubmissionStore(
@@ -31,6 +31,26 @@ export default function PublicForm() {
       }
     }
   }, [])
+
+  useEffect(() => {
+    let cancelled = false
+
+    async function loadForm() {
+      setLoading(true)
+      const data = await fetchForm(formId)
+
+      if (!cancelled) {
+        setForm(data)
+        setLoading(false)
+      }
+    }
+
+    loadForm()
+
+    return () => {
+      cancelled = true
+    }
+  }, [fetchForm, formId])
 
   useEffect(() => {
     if (!form || form.status !== 'published') return
@@ -60,6 +80,14 @@ export default function PublicForm() {
     }
 
     setSubmitted(true)
+  }
+
+  if (loading) {
+    return (
+      <div className="flex min-h-screen items-center justify-center bg-surface-raised">
+        <div className="h-6 w-6 animate-spin rounded-full border-2 border-brand-500 border-t-transparent" />
+      </div>
+    )
   }
 
   if (!form || form.status !== 'published') {
@@ -92,7 +120,7 @@ export default function PublicForm() {
         </div>
 
         {submitted ? (
-          <ThankYou message={form.submitMessage} />
+          <ThankYou message={form.submit_message} />
         ) : (
           <FormRenderer
             form={form}

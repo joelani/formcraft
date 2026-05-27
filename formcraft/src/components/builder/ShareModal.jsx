@@ -23,7 +23,7 @@ export default function ShareModal({ isOpen, onClose, form }) {
   if (!form) return null;
 
   const isPublished = form.status === "published";
-  const publicUrl = `${window.location.origin}/f/${form.shareToken}`;
+  const publicUrl = `${window.location.origin}/f/${form.share_token}`;
   const displayUrl = isPublished
     ? publicUrl
     : "Publish your form to get a link";
