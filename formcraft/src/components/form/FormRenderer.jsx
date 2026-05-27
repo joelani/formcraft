@@ -1,5 +1,4 @@
 import { useMemo, useState } from 'react'
-import { generateId } from '../../lib/idgen.js'
 import { useSubmissionStore } from '../../store/useSubmissionStore.js'
 
 const inputClasses =
@@ -9,6 +8,7 @@ export default function FormRenderer({ form, startTime, onSubmitted }) {
   const addSubmission = useSubmissionStore((state) => state.addSubmission)
   const [responses, setResponses] = useState({})
   const [errors, setErrors] = useState({})
+  const [submitting, setSubmitting] = useState(false)
 
   const sortedFields = useMemo(
     () => [...(form.fields || [])].sort((a, b) => a.order - b.order),
@@ -83,20 +83,28 @@ export default function FormRenderer({ form, startTime, onSubmitted }) {
     return 'desktop'
   }
 
-  function handleSubmit() {
+  async function handleSubmit() {
     if (!validate()) return
 
-    const submission = {
-      id: generateId(),
-      formId: form.id,
-      responses,
-      submittedAt: new Date().toISOString(),
-      duration: Math.round((Date.now() - startTime) / 1000),
-      device: detectDevice(),
-    }
+    setSubmitting(true)
 
-    addSubmission(submission)
-    onSubmitted()
+    try {
+      await addSubmission({
+        formId: form.id,
+        responses,
+        submittedAt: new Date().toISOString(),
+        duration: Math.round((Date.now() - startTime) / 1000),
+        device: detectDevice(),
+      })
+      onSubmitted()
+    } catch {
+      setErrors((prev) => ({
+        ...prev,
+        _form: 'Failed to submit. Please try again.',
+      }))
+    } finally {
+      setSubmitting(false)
+    }
   }
 
   function renderField(field) {
@@ -258,12 +266,19 @@ export default function FormRenderer({ form, startTime, onSubmitted }) {
         </div>
       ))}
 
+      {errors._form && (
+        <p className="mt-4 rounded-lg bg-danger-light px-3 py-2 text-sm text-danger">
+          {errors._form}
+        </p>
+      )}
+
       <button
-        className="mt-6 w-full rounded-md bg-brand-600 px-6 py-3 font-medium text-text-inverse transition-colors hover:bg-brand-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:ring-offset-2"
+        className="mt-6 w-full rounded-md bg-brand-600 px-6 py-3 font-medium text-text-inverse transition-colors hover:bg-brand-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:ring-offset-2 disabled:opacity-50"
+        disabled={submitting}
         onClick={handleSubmit}
         type="button"
       >
-        Submit
+        {submitting ? 'Submitting...' : 'Submit'}
       </button>
     </form>
   )

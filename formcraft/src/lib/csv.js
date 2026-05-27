@@ -21,7 +21,7 @@ export function exportToCSV(form, submissions) {
 
   const rows = submissions.map((submission) => {
     const base = [
-      quoteCSVValue(submission.submittedAt),
+      quoteCSVValue(submission.submitted_at),
       submission.duration ?? 0,
       quoteCSVValue(submission.device),
     ]

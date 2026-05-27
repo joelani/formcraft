@@ -70,12 +70,12 @@ export default function ResponseTable({ form, submissions }) {
         <tbody className="divide-y divide-border">
           {submissions.map((submission, index) => (
             <tr
-              key={submission.id ?? `${submission.submittedAt}-${index}`}
+              key={submission.id ?? `${submission.submitted_at}-${index}`}
               className="transition-colors hover:bg-surface-raised"
             >
               <td className="px-3 py-3 text-text-muted sm:px-4">{index + 1}</td>
               <td className="px-3 py-3 text-text-secondary sm:px-4">
-                {formatDate(submission.submittedAt)}
+                {formatDate(submission.submitted_at)}
               </td>
               <td className="px-3 py-3 text-text-secondary sm:px-4">
                 {formatDuration(submission.duration)}

@@ -1,6 +1,5 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Check, Copy, Mail, Send } from "lucide-react";
-import { generateId } from "../../lib/idgen.js";
 import { useSubmissionStore } from "../../store/useSubmissionStore.js";
 import { Modal } from "../ui/Modal.jsx";
 import { useToast } from "../ui/Toast.jsx";
@@ -13,12 +12,19 @@ export default function ShareModal({ isOpen, onClose, form }) {
   const [emailError, setEmailError] = useState("");
   const { toast } = useToast();
   const addInvite = useSubmissionStore((state) => state.addInvite);
+  const fetchInvites = useSubmissionStore((state) => state.fetchInvites);
   const getInvitesByForm = useSubmissionStore(
     (state) => state.getInvitesByForm,
   );
   const invites = useSubmissionStore((state) =>
-    state.invites.filter((invite) => invite.formId === form?.id),
+    state.invites.filter((invite) => invite.form_id === form?.id),
   );
+
+  useEffect(() => {
+    if (isOpen && form?.id) {
+      fetchInvites(form.id);
+    }
+  }, [fetchInvites, form?.id, isOpen]);
 
   if (!form) return null;
 
@@ -41,7 +47,7 @@ export default function ShareModal({ isOpen, onClose, form }) {
     }
   }
 
-  function handleInvite() {
+  async function handleInvite() {
     const email = emailInput.trim().toLowerCase();
     const currentInvites = getInvitesByForm(form.id);
 
@@ -60,24 +66,24 @@ export default function ShareModal({ isOpen, onClose, form }) {
       return;
     }
 
-    addInvite({
-      id: generateId(),
-      formId: form.id,
-      email,
-      sentAt: new Date().toISOString(),
-      openedAt: null,
-      submittedAt: null,
-    });
+    try {
+      await addInvite({
+        formId: form.id,
+        email,
+      });
 
-    setEmailInput("");
-    setEmailError("");
-    toast.success(`Invite recorded for ${email}`);
+      setEmailInput("");
+      setEmailError("");
+      toast.success(`Invite recorded for ${email}`);
+    } catch {
+      setEmailError("Failed to save invite. Please try again.");
+    }
   }
 
   function inviteStatus(invite) {
-    if (invite.submittedAt)
+    if (invite.submitted_at)
       return { label: "Responded", className: "text-success" };
-    if (invite.openedAt) return { label: "Opened", className: "text-info" };
+    if (invite.opened_at) return { label: "Opened", className: "text-info" };
     return { label: "Pending", className: "text-text-muted" };
   }
 

@@ -44,10 +44,11 @@ export default function Analytics() {
   const fetchForm = useFormStore((state) => state.fetchForm)
   const [form, setForm] = useState(null)
   const [loading, setLoading] = useState(true)
-  const getSubmissionsByForm = useSubmissionStore(
-    (state) => state.getSubmissionsByForm,
-  )
-  const getInvitesByForm = useSubmissionStore((state) => state.getInvitesByForm)
+  const fetchSubmissions = useSubmissionStore((state) => state.fetchSubmissions)
+  const fetchInvites = useSubmissionStore((state) => state.fetchInvites)
+  const [submissions, setSubmissions] = useState([])
+  const [invites, setInvites] = useState([])
+  const [subsLoading, setSubsLoading] = useState(true)
 
   useEffect(() => {
     let cancelled = false
@@ -69,6 +70,32 @@ export default function Analytics() {
     }
   }, [fetchForm, formId])
 
+  useEffect(() => {
+    if (!form) return
+
+    let cancelled = false
+
+    async function loadData() {
+      setSubsLoading(true)
+      const [subs, invs] = await Promise.all([
+        fetchSubmissions(form.id),
+        fetchInvites(form.id),
+      ])
+
+      if (!cancelled) {
+        setSubmissions(subs)
+        setInvites(invs)
+        setSubsLoading(false)
+      }
+    }
+
+    loadData()
+
+    return () => {
+      cancelled = true
+    }
+  }, [fetchInvites, fetchSubmissions, form?.id])
+
   if (loading) {
     return (
       <div className="flex min-h-full items-center justify-center p-8">
@@ -85,8 +112,6 @@ export default function Analytics() {
     )
   }
 
-  const submissions = getSubmissionsByForm(formId)
-  const invites = getInvitesByForm(formId)
   const totalResponses = submissions.length
   const totalInvited = invites.length
   const completionRate =
@@ -171,7 +196,11 @@ export default function Analytics() {
         />
       </div>
 
-      {totalResponses === 0 ? (
+      {subsLoading ? (
+        <div className="flex justify-center py-12">
+          <div className="h-6 w-6 animate-spin rounded-full border-2 border-brand-500 border-t-transparent" />
+        </div>
+      ) : totalResponses === 0 ? (
         <div className="mt-10">
           <EmptyState
             icon={BarChart2}

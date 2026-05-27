@@ -13,6 +13,7 @@ export default function PublicForm() {
   const startTime = useRef(Date.now())
   const trackedInviteId = useRef(null)
   const fetchForm = useFormStore((state) => state.fetchForm)
+  const fetchInvites = useSubmissionStore((state) => state.fetchInvites)
   const getInvitesByForm = useSubmissionStore((state) => state.getInvitesByForm)
   const markInviteOpened = useSubmissionStore((state) => state.markInviteOpened)
   const markInviteSubmitted = useSubmissionStore(
@@ -63,16 +64,31 @@ export default function PublicForm() {
       return
     }
 
-    const unopenedInvite = getInvitesByForm(form.id).find(
-      (invite) => !invite.openedAt,
-    )
+    const inviteId = new URLSearchParams(window.location.search).get('invite')
 
-    if (!unopenedInvite) return
+    if (inviteId) {
+      trackedInviteId.current = inviteId
+      window.sessionStorage.setItem(sessionKey, inviteId)
+      markInviteOpened(inviteId)
+      return
+    }
 
-    trackedInviteId.current = unopenedInvite.id
-    window.sessionStorage.setItem(sessionKey, unopenedInvite.id)
-    markInviteOpened(unopenedInvite.id)
-  }, [form, getInvitesByForm, markInviteOpened])
+    async function trackFirstAvailableInvite() {
+      await fetchInvites(form.id)
+
+      const unopenedInvite = getInvitesByForm(form.id).find(
+        (invite) => !invite.opened_at,
+      )
+
+      if (!unopenedInvite) return
+
+      trackedInviteId.current = unopenedInvite.id
+      window.sessionStorage.setItem(sessionKey, unopenedInvite.id)
+      markInviteOpened(unopenedInvite.id)
+    }
+
+    trackFirstAvailableInvite()
+  }, [fetchInvites, form, getInvitesByForm, markInviteOpened])
 
   const handleSubmitted = () => {
     if (trackedInviteId.current) {
